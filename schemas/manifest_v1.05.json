@@ -1,0 +1,20 @@
+{
+  "version": "1.05",
+  "authoritative_source": "Ministério da Educação",
+  "files": [
+    "ArquivoFiscalizacao_v1.05.xsd",
+    "CurriculoEscolarDigital_v1.05.xsd",
+    "DiplomaDigital_v1.05.xsd",
+    "DocumentacaoAcademicaRegistroDiplomaDigital_v1.05.xsd",
+    "HistoricoEscolarDigital_v1.05.xsd",
+    "ListaDiplomasAnulados_v1.05.xsd",
+    "leiauteArquivoFiscalizacao_v1.05.xsd",
+    "leiauteCurriculoEscolar_v1.05.xsd",
+    "leiauteDiplomaDigital_v1.05.xsd",
+    "leiauteDocumentacaoAcademicaRegistroDiplomaDigital_v1.05.xsd",
+    "leiauteHistoricoEscolar_v1.05.xsd",
+    "leiauteListaDiplomasAnulados_v1.05.xsd",
+    "tiposBasicos_v1.05.xsd",
+    "xmldsig-core-schema_v1.1.xsd"
+  ]
+}

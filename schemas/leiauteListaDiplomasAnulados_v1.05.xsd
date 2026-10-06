@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://portal.mec.gov.br/diplomadigital/arquivos-em-xsd"
+	targetNamespace="http://portal.mec.gov.br/diplomadigital/arquivos-em-xsd"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#"
+		schemaLocation="xmldsig-core-schema_v1.1.xsd" />
+	<xs:include schemaLocation="leiauteDiplomaDigital_v1.05.xsd" />
+	<xs:include schemaLocation="tiposBasicos_v1.05.xsd" />
+
+	<xs:complexType name="TListaDiplomasAnulados">
+		<xs:annotation>
+			<xs:documentation>Lista de Diplomas com Registro anulado por Registradora</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="infListaDiplomasAnulados"
+				type="TInfListaDiplomasAnulados" />
+			<xs:element ref="ds:Signature" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TInfListaDiplomasAnulados">
+		<xs:annotation>
+			<xs:documentation>Tipo que define o conjunto de informações referentes a Lista de
+				Diplomas Anulados</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="NumeroDeSequencia" type="TNumeroPositivo" />
+			<xs:element minOccurs="1" maxOccurs="1" name="IESRegistradora"
+				type="TDadosIesRegistradora" />
+			<xs:element minOccurs="1" maxOccurs="1" name="DiplomasAnulados" type="TDiplomasAnulados" />
+			<xs:element minOccurs="1" maxOccurs="1" name="DataMaximaProximaAtualizacao" type="TData" />
+		</xs:sequence>
+		<xs:attribute name="versao" type="TVersao" use="required">
+			<xs:annotation>
+				<xs:documentation>Versão do leiaute (v1.05)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ambiente" type="TAmb" default="Produção" use="optional">
+			<xs:annotation>
+				<xs:documentation> Especifica o contexto no qual a Lista de Diplomas foi emitida.
+					Apenas Lista de Diplomas emitidas no ambiente "Produção" são legalmente válidos.
+					Caso não seja especificado, o Ambiente é "Produção" e a Lista de Diplomas
+					emitidas é legalmente válida. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="TDiplomasAnulados">
+		<xs:annotation>
+			<xs:documentation>Lista de Diplomas Anulados com Data de Anulação e Motivo </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="DiplomaAnulado"
+				type="TDiplomaAnulado">
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TDiplomaAnulado">
+		<xs:annotation>
+			<xs:documentation>Informações de anulação referentes a um Diploma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="CodigoDiplomaAnulado"
+				type="TCodigoValidacao" />
+			<xs:element minOccurs="1" maxOccurs="1" name="DataAnulacao" type="TData" />
+			<xs:element minOccurs="1" maxOccurs="1" name="MotivoAnulacao" type="TMotivoAnulacao" />
+			<xs:element minOccurs="0" maxOccurs="1" name="AnotacaoAnulacao" type="TString" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="TMotivoAnulacao">
+		<xs:annotation>
+			<xs:documentation>Tipo motivo de anulação de Diploma</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:enumeration value="Erro de Fato" />
+			<xs:enumeration value="Erro de Direito" />
+			<xs:enumeration value="Decisão Judicial" />
+			<xs:enumeration value="Reemissão para Complemento de Informação" />
+			<xs:enumeration value="Reemissão para Inclusão de Habilitação" />
+			<xs:enumeration value="Reemissão para Anotaçao de Registro" />
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema> 

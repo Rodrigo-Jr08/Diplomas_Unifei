@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://portal.mec.gov.br/diplomadigital/arquivos-em-xsd"
+	targetNamespace="http://portal.mec.gov.br/diplomadigital/arquivos-em-xsd"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#"
+		schemaLocation="xmldsig-core-schema_v1.1.xsd" />
+	<xs:include schemaLocation="leiauteDiplomaDigital_v1.05.xsd" />
+	<xs:include schemaLocation="leiauteHistoricoEscolar_v1.05.xsd" />
+	<xs:include schemaLocation="tiposBasicos_v1.05.xsd" />
+
+	<xs:complexType name="TDocumentacaoAcademicaRegistro">
+		<xs:annotation>
+			<xs:documentation>Tipo Documentação Acadêmica para Emissão e Registro</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element minOccurs="1" maxOccurs="1" name="RegistroReq" type="TRegistroReq" />
+				<xs:element minOccurs="1" maxOccurs="1" name="RegistroReqNSF" type="TRegistroReqNSF" />
+				<xs:element minOccurs="1" maxOccurs="1" name="RegistroSegundaViaReq"
+					type="TRegistroSegundaViaReq" />
+				<xs:element minOccurs="1" maxOccurs="1" name="RegistroPorDecisaoJudicialReq"
+					type="TRegistroPorDecisaoJudicialReq" />
+			</xs:choice>
+			<xs:sequence minOccurs="1" maxOccurs="1">
+				<xs:element ref="ds:Signature" />
+			</xs:sequence>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TRegistroReq">
+		<xs:annotation>
+			<xs:documentation>Tipo Requisição de Registro de Diploma Digital</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="DadosDiploma" type="TDadosDiploma" />
+			<xs:element minOccurs="1" maxOccurs="1" name="DadosPrivadosDiplomado"
+				type="TDadosPrivadosDiplomado" />
+			<xs:element minOccurs="0" maxOccurs="1" name="TermoResponsabilidadeEmissora"
+				type="TTermoResponsabilidade" />
+			<xs:element minOccurs="1" maxOccurs="1" name="DocumentacaoComprobatoria"
+				type="TDocumentacaoComprobatoria" />
+		</xs:sequence>
+		<xs:attribute name="versao" type="TVersao" use="required">
+			<xs:annotation>
+				<xs:documentation>Versão do leiaute (v1.05)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="id" use="required">
+			<xs:annotation>
+				<xs:documentation>Id</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:ID">
+					<xs:pattern value="ReqDip[0-9]{44}" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="ambiente" type="TAmb" default="Produção" use="optional">
+			<xs:annotation>
+				<xs:documentation> Especifica o contexto no qual o Diploma foi emitido. Apenas
+					Diplomas emitidos no ambiente "Produção" são legalmente válidos. Caso não seja
+					especificado, o Ambiente é "Produção" e o Diploma é legalmente válido. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="TRegistroReqNSF">
+		<xs:annotation>
+			<xs:documentation>Tipo Requisição de Registro de Diploma Digital</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="DadosDiplomaNSF" type="TDadosDiplomaNSF" />
+			<xs:element minOccurs="1" maxOccurs="1" name="DadosPrivadosDiplomado"
+				type="TDadosPrivadosDiplomado" />
+			<xs:element minOccurs="0" maxOccurs="1" name="TermoResponsabilidadeEmissora"
+				type="TTermoResponsabilidade" />
+			<xs:element minOccurs="0" maxOccurs="1" name="DocumentacaoComprobatoria"
+				type="TDocumentacaoComprobatoria" />
+		</xs:sequence>
+		<xs:attribute name="versao" type="TVersao" use="required">
+			<xs:annotation>
+				<xs:documentation>Versão do leiaute (v1.05)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="id" use="required">
+			<xs:annotation>
+				<xs:documentation>Id</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:ID">
+					<xs:pattern value="ReqDip[0-9]{44}" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="ambiente" type="TAmb" default="Produção" use="optional">
+			<xs:annotation>
+				<xs:documentation> Especifica o contexto no qual o Diploma foi emitido. Apenas
+					Diplomas emitidos no ambiente "Produção" são legalmente válidos. Caso não seja
+					especificado, o Ambiente é "Produção" e o Diploma é legalmente válido. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="TRegistroSegundaViaReq">
+		<xs:annotation>
+			<xs:documentation>Tipo Requisição de Registro de Diploma Digital como segunda via de um
+				diploma físico</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element minOccurs="1" maxOccurs="1" name="DadosDiploma" type="TDadosDiploma" />
+				<xs:element minOccurs="1" maxOccurs="1" name="DadosDiplomaNSF"
+					type="TDadosDiplomaNSF" />
+			</xs:choice>
+			<xs:element minOccurs="1" maxOccurs="1" name="DadosPrivadosDiplomado"
+				type="TDadosPrivadosDiplomadoSegundaVia" />
+			<xs:element minOccurs="0" maxOccurs="1" name="TermoResponsabilidadeEmissora"
+				type="TTermoResponsabilidade" />
+			<xs:element minOccurs="0" maxOccurs="1" name="DocumentacaoComprobatoria"
+				type="TDocumentacaoComprobatoria" />
+		</xs:sequence>
+		<xs:attribute name="versao" type="TVersao" use="required">
+			<xs:annotation>
+				<xs:documentation>Versão do leiaute (v1.05)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="id" use="required">
+			<xs:annotation>
+				<xs:documentation>Id</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:ID">
+					<xs:pattern value="ReqDip[0-9]{44}" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="ambiente" type="TAmb" default="Produção" use="optional">
+			<xs:annotation>
+				<xs:documentation> Especifica o contexto no qual o Diploma foi emitido. Apenas
+					Diplomas emitidos no ambiente "Produção" são legalmente válidos. Caso não seja
+					especificado, o Ambiente é "Produção" e o Diploma é legalmente válido. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="TRegistroPorDecisaoJudicialReq">
+		<xs:annotation>
+			<xs:documentation>Tipo Requisição de Registro de Diploma Digital emitido por decisão
+				judicial</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="DadosDiplomaPorDecisaoJudicial"
+				type="TDadosDiplomaPorDecisaoJudicial" />
+
+			<xs:element minOccurs="1" maxOccurs="1" name="DadosPrivadosDiplomado"
+				type="TDadosPrivadosDiplomadoPorDecisaoJudicial" />
+			<xs:element minOccurs="0" maxOccurs="1" name="TermoResponsabilidadeEmissora"
+				type="TTermoResponsabilidade" />
+			<xs:element minOccurs="0" maxOccurs="1" name="DocumentacaoComprobatoria"
+				type="TDocumentacaoComprobatoriaPorDecisaoJudicial" />
+		</xs:sequence>
+		<xs:attribute name="versao" type="TVersao" use="required">
+			<xs:annotation>
+				<xs:documentation>Versão do leiaute (v1.05)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="id" use="required">
+			<xs:annotation>
+				<xs:documentation>Id</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:ID">
+					<xs:pattern value="ReqDip[0-9]{44}" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="ambiente" type="TAmb" default="Produção" use="optional">
+			<xs:annotation>
+				<xs:documentation> Especifica o contexto no qual o Diploma foi emitido. Apenas
+					Diplomas emitidos no ambiente "Produção" são legalmente válidos. Caso não seja
+					especificado, o Ambiente é "Produção" e o Diploma é legalmente válido. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="TDadosPrivadosDiplomado">
+		<xs:annotation>
+			<xs:documentation>Dados do Diplomado</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Filiacao" type="TFiliacao" />
+			<xs:element name="HistoricoEscolar" type="THistoricoEscolar" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TDadosPrivadosDiplomadoSegundaVia">
+		<xs:annotation>
+			<xs:documentation>Dados do Diplomado para emissão de segunda via digital de diploma
+				expedido em papel.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Filiacao" type="TFiliacao" />
+			<xs:element name="HistoricoEscolar" type="THistoricoEscolarSegundaVia" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TDadosPrivadosDiplomadoPorDecisaoJudicial">
+		<xs:annotation>
+			<xs:documentation>Dados do Diplomado para emissão devido a decisão judicial.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="Filiacao" type="TFiliacao" />
+				<xs:element name="Filiacao_Indisponivel" type="TVazio" />
+			</xs:choice>
+			<xs:choice>
+				<xs:element name="HistoricoEscolar" type="THistoricoEscolarSegundaVia" />
+				<xs:element name="HistoricoEscolar_Indisponivel" type="TVazio" />
+			</xs:choice>
+			<xs:element name="InformacoesProcessoJudicial" type="TInformacoesProcessoJudicial" />
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="TTermoResponsabilidade">
+		<xs:annotation>
+			<xs:documentation>Tipo Termo Responsabilidade</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="Nome" type="TNome" />
+			<xs:element minOccurs="1" maxOccurs="1" name="CPF" type="TCpf" />
+			<xs:element minOccurs="1" maxOccurs="1" name="Cargo" type="TString" />
+			<xs:element minOccurs="0" maxOccurs="1" name="AtoDesignacao" type="TPdfA" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TDocumentacaoComprobatoria">
+		<xs:annotation>
+			<xs:documentation>Tipo Documentação Comprobatória</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="unbounded" name="Documento">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="TPdfA">
+							<xs:attribute name="tipo" type="TTipoDocumentacao" use="required" />
+							<xs:attribute name="observacoes" type="TString" use="optional" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TDocumentacaoComprobatoriaPorDecisaoJudicial">
+		<xs:annotation>
+			<xs:documentation>Tipo Documentação Comprobatória para emissões por decisão judicial</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:choice>
+				<xs:element name="Documento">
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="TPdfA">
+								<xs:attribute name="tipo" type="TTipoDocumentacao" use="required" />
+								<xs:attribute name="observacoes" type="TString" use="optional" />
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Documento_Indisponivel">
+					<xs:complexType>
+						<xs:attribute name="tipo" type="TTipoDocumentacao" use="required" />
+						<xs:attribute name="observacoes" type="TString" use="optional" />
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="TTipoDocumentacao">
+		<xs:annotation>
+			<xs:documentation>Tipo documentação associada</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="collapse" />
+			<xs:enumeration value="DocumentoIdentidadeDoAluno" />
+			<xs:enumeration value="ProvaConclusaoEnsinoMedio" />
+			<xs:enumeration value="ProvaColacao" />
+			<xs:enumeration value="ComprovacaoEstagioCurricular" />
+			<xs:enumeration value="CertidaoNascimento" />
+			<xs:enumeration value="CertidaoCasamento" />
+			<xs:enumeration value="TituloEleitor" />
+			<xs:enumeration value="AtoNaturalizacao" />
+			<xs:enumeration value="Outros" />
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>

@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://portal.mec.gov.br/diplomadigital/arquivos-em-xsd"
+	targetNamespace="http://portal.mec.gov.br/diplomadigital/arquivos-em-xsd"
+	elementFormDefault="qualified"
+	attributeFormDefault="unqualified">
+
+	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#"
+		schemaLocation="xmldsig-core-schema_v1.1.xsd" />
+	<xs:include schemaLocation="leiauteHistoricoEscolar_v1.05.xsd" />
+
+	<xs:complexType name="TCurriculoEscolar">
+		<xs:annotation>
+			<xs:documentation>Documento descritivo de um Currículo Escolar de um Projeto Pedagógico
+				de Curso (PPC).</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="infCurriculoEscolar"
+				type="TInfCurriculoEscolar" />
+
+			<xs:element minOccurs="1" maxOccurs="unbounded" ref="ds:Signature" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TInfCurriculoEscolar">
+		<xs:annotation>
+			<xs:documentation>Tipo que define o conjunto de informações referentes ao Currículo
+				Escolar de um Curso</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="CodigoCurriculo" type="TCodigoCurriculo" />
+			<xs:element minOccurs="1" maxOccurs="1" name="DataCurriculo" type="TData" />
+			<xs:element minOccurs="1" maxOccurs="1" name="MinutosRelogioDaHoraAula"
+				type="TNumeroPositivo" />
+			<xs:element minOccurs="0" maxOccurs="1" name="NomeParaAreas" type="TString" />
+			<xs:choice>
+				<xs:element minOccurs="1" maxOccurs="1" name="DadosCurso" type="TDadosMinimoCurso" />
+				<xs:element minOccurs="1" maxOccurs="1" name="DadosCursoNSF"
+					type="TDadosMinimoCursoNSF" />
+			</xs:choice>
+			<xs:element minOccurs="1" maxOccurs="1" name="IesEmissora" type="TDadosIesEmissora" />
+
+			<xs:element minOccurs="1" maxOccurs="1" name="infEtiquetas" type="TInfEtiquetas" />
+			<xs:element minOccurs="1" maxOccurs="1" name="infAreas" type="TInfAreas" />
+
+			<xs:element minOccurs="1" maxOccurs="1" name="infEstruturaCurricular"
+				type="TInfEstruturaCurricular" />
+			<xs:element minOccurs="0" maxOccurs="1" name="infEstruturaAtividadesComplementares"
+				type="TInfEstruturaAtividadesComplementares" />
+			<xs:element minOccurs="1" maxOccurs="1" name="infCriteriosIntegralizacao"
+				type="TInfCriteriosIntegralizacao" />
+
+			<xs:element minOccurs="1" maxOccurs="1" name="SegurancaCurriculo"
+				type="TSegurancaCurriculo" />
+			<xs:element minOccurs="0" maxOccurs="1" name="InformacoesAdicionais" type="TString" />
+		</xs:sequence>
+		<xs:attribute name="versao" type="TVersao" use="required">
+			<xs:annotation>
+				<xs:documentation>Versão do leiaute (v1.05)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ambiente" type="TAmb" default="Produção" use="optional">
+			<xs:annotation>
+				<xs:documentation> Especifica o contexto no qual o Curriculo Escolar foi emitido.
+					Apenas Curriculos Escolares emitidos no ambiente "Produção" são legalmente
+					válidos. Caso não seja especificado, o Ambiente é "Produção" e o Curriculo
+					Escolar é legalmente válido. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="TInfEtiquetas">
+		<xs:annotation>
+			<xs:documentation>Tipo que define informações sobre as etiquetas usadas neste currículo
+				para classificação das unidades curriculares</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="unbounded" name="Etiqueta" type="TDadoEtiqueta" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TDadoEtiqueta">
+		<xs:annotation>
+			<xs:documentation>Tipo que define informações sobre uma das etiquetas usadas neste
+				currículo para classificação das unidades curriculares</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="Codigo" type="TString" />
+			<xs:element minOccurs="1" maxOccurs="1" name="Nome" type="TString" />
+			<xs:element minOccurs="0" maxOccurs="1"
+				name="AplicadoAutomaticamenteUnidadesNaoPertencentesAoCurriculo" type="TSimNao" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TInfAreas">
+		<xs:annotation>
+			<xs:documentation>Tipo que define informações sobre as Áreas usadas neste currículo</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="Area" type="TDadoArea" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TDadoArea">
+		<xs:annotation>
+			<xs:documentation>Tipo que define informações sobre uma das Áreas usadas neste currículo</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="unbounded" name="Codigo" type="TString" />
+			<xs:element minOccurs="1" maxOccurs="unbounded" name="Nome" type="TString" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TInfEstruturaCurricular">
+		<xs:annotation>
+			<xs:documentation>Tipo que define as unidades que compõe a estrutura curricular do Curso</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="unbounded" name="UnidadeCurricular"
+				type="TUnidadeCurricular" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TUnidadeCurricular">
+		<xs:annotation>
+			<xs:documentation>Tipo que define uma unidade curricular</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="Tipo" type="TTipoUnidadeCurricular" />
+			<xs:element minOccurs="1" maxOccurs="1" name="Codigo" type="TCodigoUnidadeCurricular" />
+			<xs:element minOccurs="1" maxOccurs="1" name="Nome" type="TString" />
+			<xs:element minOccurs="0" maxOccurs="1" name="CargaHorariaEmHoraAula" type="THoraAula" />
+			<xs:element minOccurs="1" maxOccurs="1" name="CargaHorariaEmHoraRelogio"
+				type="THoraRelogio" />
+			<xs:element minOccurs="0" maxOccurs="1" name="Ementa" type="TEmenta" />
+			<xs:element minOccurs="0" maxOccurs="1" name="Fase" type="TString" />
+			<xs:element minOccurs="0" maxOccurs="1" name="Equivalencias"
+				type="TEquivalenciaUnidadesCurriculares" />
+			<xs:element minOccurs="0" maxOccurs="1" name="PreRequisitos"
+				type="TPreRequisitosUnidadesCurriculares" />
+			<xs:element minOccurs="0" maxOccurs="1" name="Etiquetas" type="TEtiquetas" />
+			<xs:element minOccurs="0" maxOccurs="1" name="Areas" type="TAreas" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="TTipoUnidadeCurricular">
+		<xs:annotation>
+			<xs:documentation>Tipos de unidade curricular</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:enumeration value="Disciplina" />
+			<xs:enumeration value="Módulo" />
+			<xs:enumeration value="Atividade" />
+			<xs:enumeration value="Estágio" />
+			<xs:enumeration value="Trabalho de Conclusão de Curso" />
+			<xs:enumeration value="Monografia" />
+			<xs:enumeration value="Artigo" />
+			<xs:enumeration value="Projeto" />
+			<xs:enumeration value="Produto" />
+			<xs:enumeration value="Atividade Complementar" />
+			<xs:enumeration value="Atividade de Extensão" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="TEquivalenciaUnidadesCurriculares">
+		<xs:annotation>
+			<xs:documentation> Determina as equivalencias de UnidadeCurricular. Para ser equivalente
+				todos os CodigosUnidadeEquivalente de pelo menos uma UnidadesCurricularesEquivalente
+				devem estar presentes no histórico. </xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="UnidadesCurricularesEquivalente">
+				<xs:complexType>
+					<xs:sequence minOccurs="1" maxOccurs="unbounded">
+						<xs:element name="CodigoUnidadeEquivalente" type="TCodigoUnidadeCurricular" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TPreRequisitosUnidadesCurriculares">
+		<xs:annotation>
+			<xs:documentation>Lista de pré-requisitos de uma unidade curricular. Ou seja, unidades
+				curriculares que devem ser cursadas antes que a presente Unidade Curricular possa
+				ser cursada. </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="unbounded" name="CodigoDependencia"
+				type="TCodigoUnidadeCurricular" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TEmenta">
+		<xs:annotation>
+			<xs:documentation>Define a Ementa de uma Unidade Curricular. Composta por uma lista de
+				itens de Ementa.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="ItemEmenta" type="TString" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TEtiquetas">
+		<xs:annotation>
+			<xs:documentation>Lista de Etiquetas, que qualificam a Unidade Curricular para fins de
+				cômputo da integralização curricular</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="unbounded" name="Etiqueta" type="TEtiqueta" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TEtiqueta">
+		<xs:annotation>
+			<xs:documentation>Etiqueta que qualifica a Unidade Curricular para fins de cômputo da
+				integralização curricular. Caso NumeroHorasParaIntegralizacao esteja presente, este
+				número de horas será utilizado para fins de contabilização de carga horária. Caso
+				NumeroHorasParaIntegralizacao não esteja presente, será usado a carga horária da
+				Unidade Curricular.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="Codigo" type="TString" />
+			<xs:sequence minOccurs="0" maxOccurs="1">
+				<xs:element minOccurs="0" maxOccurs="1" name="CargaHorariaEmHoraAula"
+					type="THoraAula" />
+				<xs:element minOccurs="1" maxOccurs="1" name="CargaHorariaEmHoraRelogio"
+					type="THoraRelogio" />
+			</xs:sequence>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TAreas">
+		<xs:annotation>
+			<xs:documentation>Áreas/ênfases associadas a Unidade Curricular.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element minOccurs="1" maxOccurs="1" name="Area" type="TCodigoArea" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TCodigoArea">
+		<xs:annotation>
+			<xs:documentation>Código da área associadas a Unidade Curricular.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="Codigo" type="TString" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TInfEstruturaAtividadesComplementares">
+		<xs:annotation>
+			<xs:documentation>Tipo que define a estruturação das atividades complementares que
+				compõe a estrutura curricular do Curso</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="Categoria"
+				type="TCategoriaAtividadeComplementar" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TCategoriaAtividadeComplementar">
+		<xs:annotation>
+			<xs:documentation>Tipo que define um conjunto de atividades complementares associados a
+				uma mesma categoria</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="Codigo" type="TId" />
+			<xs:element minOccurs="1" maxOccurs="1" name="Nome" type="TString" />
+			<xs:element minOccurs="0" maxOccurs="1" name="LimiteCargaHorariaEmHoraRelogio"
+				type="THoraRelogio" />
+			<xs:element minOccurs="1" maxOccurs="1" name="Atividades"
+				type="TAtividadesComplementares" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TAtividadesComplementares">
+		<xs:annotation>
+			<xs:documentation>Tipo que define uma lista de atividades complementar</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="unbounded" name="Atividade"
+				type="TAtividadeComplementar" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TAtividadeComplementar">
+		<xs:annotation>
+			<xs:documentation>Tipo que define uma atividade complementar</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="Codigo" type="TId" />
+			<xs:element minOccurs="1" maxOccurs="1" name="Nome" type="TString" />
+			<xs:element minOccurs="0" maxOccurs="1" name="Descricao" type="TTextoAberto" />
+			<xs:element minOccurs="1" maxOccurs="1" name="LimiteCargaHorariaEmHoraRelogio"
+				type="THoraRelogio" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TInfCriteriosIntegralizacao">
+		<xs:annotation>
+			<xs:documentation>Tipo que defina a lista de critérios de integralização</xs:documentation>
+		</xs:annotation>
+		<xs:choice minOccurs="1" maxOccurs="unbounded">
+			<xs:element minOccurs="1" maxOccurs="1" name="CriterioIntegralizacaoRotulos"
+				type="TCriterioIntegralizacaoRotulos" />
+			<xs:element minOccurs="1" maxOccurs="1" name="CriterioIntegralizacaoExpressao"
+				type="TCriterioIntegralizacaoExpressao" />
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="TCriterioIntegralizacaoRotulos">
+		<xs:annotation>
+			<xs:documentation>Tipo que define um critério de integralização que é atingindo quando o
+				somatório de cargas horárias das Unidades Curriculares com etiquetas e tipo de
+				unidade curricular atinge a Carga Horária Mínima, limitada a Carga Horária Máxima</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="Codigo" type="TId">
+				<xs:annotation>
+					<xs:documentation> O código será usado para referenciar este critério em
+						CriterioIntegralizacaoExpressao </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element minOccurs="0" maxOccurs="1" name="UnidadeCurricular"
+				type="TTipoUnidadeCurricular" />
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="Etiqueta" type="TString" />
+			<xs:element minOccurs="1" maxOccurs="1" name="CargasHorariasCriterio"
+				type="TCriterioLimitesCargas" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TCriterioIntegralizacaoExpressao">
+		<xs:annotation>
+			<xs:documentation> Tipo que define um critério de integralização que é atingindo quando
+				as cargas horárias calculadas a partir da expressão posta atingem a Carga Horária
+				Mínima, limitada a Carga Horária Máxima. </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="Codigo" type="TId" />
+			<xs:element minOccurs="1" maxOccurs="1" name="Expressao" type="TExpressao" />
+			<xs:element minOccurs="1" maxOccurs="1" name="CargasHorariasCriterio"
+				type="TCriterioLimitesCargas" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TExpressao">
+		<xs:annotation>
+			<xs:documentation> Tipo que define os possíveis operadores usados para definição de uma
+				expressao </xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element minOccurs="1" maxOccurs="1" name="Soma" type="TCodigos">
+				<xs:annotation>
+					<xs:documentation> Operador que permite computar um somatório de cargas horárias </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="TCodigos">
+		<xs:annotation>
+			<xs:documentation> Tipo que define uma lista de códigos de critérios de integralização </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="unbounded" name="Codigo" type="TString" />
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="TCriterioLimitesCargas">
+		<xs:annotation>
+			<xs:documentation>Tipo que defina horários lista de critérios de integralização</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="CargaHorariaMinima"
+						type="THoraRelogio" />
+					<xs:element minOccurs="1" maxOccurs="1" name="CargaHorariaMaxima"
+						type="THoraRelogio" />
+					<xs:element minOccurs="0" maxOccurs="1" name="CargaHorariaParaTotal"
+						type="THoraRelogio" />
+				</xs:sequence>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TSegurancaCurriculo">
+		<xs:annotation>
+			<xs:documentation>Dados de segurança do currículo</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CodigoValidacao" type="TCodigoValidacaoCurriculo" />
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

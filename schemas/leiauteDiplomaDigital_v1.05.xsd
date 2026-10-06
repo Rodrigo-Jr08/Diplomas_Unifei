@@ -1,0 +1,738 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://portal.mec.gov.br/diplomadigital/arquivos-em-xsd"
+	targetNamespace="http://portal.mec.gov.br/diplomadigital/arquivos-em-xsd"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#"
+		schemaLocation="xmldsig-core-schema_v1.1.xsd" />
+	<xs:include schemaLocation="tiposBasicos_v1.05.xsd" />
+
+	<xs:complexType name="TDiploma">
+		<xs:annotation>
+			<xs:documentation>Tipo Diploma Digital</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="infDiploma" type="TInfDiploma" />
+			<xs:element ref="ds:Signature" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TInfDiploma">
+		<xs:annotation>
+			<xs:documentation>Tipo Diploma Digital</xs:documentation>
+		</xs:annotation>
+
+		<xs:choice>
+			<xs:sequence>
+				<xs:choice>
+					<xs:element minOccurs="1" maxOccurs="1" name="DadosDiploma" type="TDadosDiploma" />
+					<xs:element minOccurs="1" maxOccurs="1" name="DadosDiplomaNSF"
+						type="TDadosDiplomaNSF" />
+				</xs:choice>
+				<xs:choice>
+					<xs:element minOccurs="1" maxOccurs="1" name="DadosRegistro"
+						type="TDadosRegistro" />
+					<xs:element minOccurs="1" maxOccurs="1" name="DadosRegistroNSF"
+						type="TDadosRegistroNSF" />
+				</xs:choice>
+			</xs:sequence>
+			<xs:sequence>
+				<xs:element minOccurs="1" maxOccurs="1" name="DadosDiplomaPorDecisaoJudicial"
+					type="TDadosDiplomaPorDecisaoJudicial" />
+				<xs:element minOccurs="1" maxOccurs="1" name="DadosRegistroPorDecisaoJudicial"
+					type="TDadosRegistroPorDecisaoJudicial" />
+			</xs:sequence>
+		</xs:choice>
+		<xs:attribute name="versao" type="TVersao" use="required">
+			<xs:annotation>
+				<xs:documentation>Versão do leiaute (v1.05)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="id" use="required">
+			<xs:annotation>
+				<xs:documentation>Id</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:ID">
+					<xs:pattern value="VDip[0-9]{44}" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="ambiente" type="TAmb" default="Produção" use="optional">
+			<xs:annotation>
+				<xs:documentation> Especifica o contexto no qual o Diploma foi emitido. Apenas
+					Diplomas emitidos no ambiente "Produção" são legalmente válidos. Caso não seja
+					especificado, o Ambiente é "Produção" e o Diploma é legalmente válido. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="TDadosDiploma">
+		<xs:annotation>
+			<xs:documentation>Tipo Diploma Digital</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Diplomado" type="TDadosDiplomado" />
+			<xs:element minOccurs="0" name="DataConclusao" type="TData" />
+			<xs:element name="DadosCurso" type="TDadosCurso" />
+			<xs:element minOccurs="0" maxOccurs="1" name="DadosIesOriginalCursoPTA"
+				type="TDadosIesOriginalCursoPTA" />
+			<xs:element name="IesEmissora" type="TDadosIesEmissora" />
+			<xs:element minOccurs="0" maxOccurs="1" name="Assinantes" type="TInfoAssinantes" />
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element ref="ds:Signature" />
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" use="required">
+			<xs:annotation>
+				<xs:documentation>Id</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:ID">
+					<xs:pattern value="Dip[0-9]{44}" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="TDadosDiplomaNSF">
+		<xs:annotation>
+			<xs:documentation>Tipo Diploma Digital para Universidade fora do sistema federal de
+				ensino - Flexibiliza a obrigatoriedade de alguns elementos</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Diplomado" type="TDadosDiplomado" />
+			<xs:element minOccurs="0" name="DataConclusao" type="TData" />
+			<xs:element name="DadosCurso" type="TDadosCursoNSF" />
+			<xs:element minOccurs="0" maxOccurs="1" name="DadosIesOriginalCursoPTA"
+				type="TDadosIesOriginalCursoPTA" />
+			<xs:element name="IesEmissora" type="TDadosIesEmissora" />
+			<xs:element minOccurs="0" maxOccurs="1" name="Assinantes" type="TInfoAssinantes" />
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element ref="ds:Signature" />
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" use="required">
+			<xs:annotation>
+				<xs:documentation>Id</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:ID">
+					<xs:pattern value="Dip[0-9]{44}" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="TDadosDiplomaPorDecisaoJudicial">
+		<xs:annotation>
+			<xs:documentation>Tipo Diploma Digital para emissão de diplomas por força de decisão
+				Judicial</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Diplomado" type="TDadosDiplomadoPorDecisaoJudicial" />
+			<xs:element minOccurs="0" name="DataConclusao" type="TData" />
+			<xs:element name="DadosCurso" type="TDadosCursoPorDecisaoJudicial" />
+			<xs:element minOccurs="0" maxOccurs="1" name="DadosIesOriginalCursoPTA"
+				type="TDadosIesOriginalCursoPTA" />
+			<xs:element name="IesEmissora" type="TDadosIesEmissora" />
+			<xs:element minOccurs="0" maxOccurs="1" name="DeclaracoesEmissoraAcercaProcesso"
+				type="TDeclaracoesAcercaProcesso" />
+			<xs:element minOccurs="0" maxOccurs="1" name="Assinantes" type="TInfoAssinantes" />
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element ref="ds:Signature" />
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" use="required">
+			<xs:annotation>
+				<xs:documentation>Id</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:ID">
+					<xs:pattern value="Dip[0-9]{44}" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="TDadosRegistro">
+		<xs:annotation>
+			<xs:documentation>Tipo de dados do registro do diploma digital</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="IesRegistradora" type="TDadosIesRegistradora" />
+			<xs:element name="LivroRegistro" type="TLivroRegistro" />
+			<xs:element name="IdDocumentacaoAcademica">
+				<xs:simpleType>
+					<xs:restriction base="xs:ID">
+						<xs:pattern value="ReqDip[0-9]{44}" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Seguranca" type="TSeguranca" />
+			<xs:element minOccurs="0" maxOccurs="1" name="InformacoesAdicionais" type="TString" />
+			<xs:element minOccurs="0" maxOccurs="1" name="Assinantes" type="TInfoAssinantes" />
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element ref="ds:Signature" />
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" use="required">
+			<xs:annotation>
+				<xs:documentation>Id</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:ID">
+					<xs:pattern value="RDip[0-9]{44}" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="TDadosRegistroNSF">
+		<xs:annotation>
+			<xs:documentation>Tipo de dados do registro do diploma digital flexibilizado para
+				Universidades fora do sistema federal de ensino</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="IesRegistradora" type="TDadosIesRegistradora" />
+			<xs:element name="LivroRegistro" type="TLivroRegistroNSF" />
+			<xs:element name="IdDocumentacaoAcademica">
+				<xs:simpleType>
+					<xs:restriction base="xs:ID">
+						<xs:pattern value="ReqDip[0-9]{44}" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Seguranca" type="TSeguranca" />
+			<xs:element minOccurs="0" maxOccurs="1" name="InformacoesAdicionais" type="TString" />
+			<xs:element minOccurs="0" maxOccurs="1" name="Assinantes" type="TInfoAssinantes" />
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element ref="ds:Signature" />
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" use="required">
+			<xs:annotation>
+				<xs:documentation>Id</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:ID">
+					<xs:pattern value="RDip[0-9]{44}" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="TDadosRegistroPorDecisaoJudicial">
+		<xs:annotation>
+			<xs:documentation>Tipo de dados do registro do diploma digital para registro por decisão
+				judicial</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="IesRegistradora" type="TDadosIesRegistradora" />
+			<xs:element name="LivroRegistro" type="TLivroRegistroNSF" />
+			<xs:element name="IdDocumentacaoAcademica">
+				<xs:simpleType>
+					<xs:restriction base="xs:ID">
+						<xs:pattern value="ReqDip[0-9]{44}" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Seguranca" type="TSeguranca" />
+			<xs:element name="InformacoesProcessoJudicial" type="TInformacoesProcessoJudicial" />
+			<xs:element minOccurs="0" maxOccurs="1" name="DeclaracoesRegistradoraAcercaProcesso"
+				type="TDeclaracoesAcercaProcesso" />
+			<xs:element minOccurs="0" maxOccurs="1" name="InformacoesAdicionais" type="TString" />
+			<xs:element minOccurs="0" maxOccurs="1" name="Assinantes" type="TInfoAssinantes" />
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element ref="ds:Signature" />
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" use="required">
+			<xs:annotation>
+				<xs:documentation>Id</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:ID">
+					<xs:pattern value="RDip[0-9]{44}" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="TInformacoesProcessoJudicial">
+		<xs:annotation>
+			<xs:documentation>Informações do processo judicial</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="NumeroProcessoJudicial" type="TNumeroProcessoJudicial" />
+			<xs:element name="NomeJuiz" type="TString" />
+			<xs:element minOccurs="0" name="Decisao" type="TString" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TDeclaracoesAcercaProcesso">
+		<xs:annotation>
+			<xs:documentation>Declaracoes da IES sobre o processo judicial</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="Declaracao" type="TString" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TDadosDiplomado">
+		<xs:annotation>
+			<xs:documentation>Dados do Diplomado</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ID" type="TId" />
+			<xs:group ref="GPessoa" />
+			<xs:element name="Nacionalidade" type="TNacionalidade" />
+			<xs:element name="Naturalidade" type="TNaturalidade" />
+			<xs:element name="CPF" type="TCpf" />
+			<xs:choice>
+				<xs:element name="RG" type="TRg" />
+				<xs:element name="OutroDocumentoIdentificacao" type="TOutroDocumentoIdentificacao" />
+			</xs:choice>
+			<xs:element name="DataNascimento" type="TData" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TDadosDiplomadoPorDecisaoJudicial">
+		<xs:annotation>
+			<xs:documentation>Dados do Diplomado com flexibilizações por decisão judicial</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="ID" type="TId" />
+				<xs:element name="ID_Indisponivel" type="TVazio" />
+			</xs:choice>
+
+			<xs:element name="Nome" type="TNome" />
+			<xs:element minOccurs="0" name="NomeSocial" type="TNome" />
+			<xs:choice>
+				<xs:element name="Sexo" type="TSexo" />
+				<xs:element name="Sexo_Indisponivel" type="TVazio" />
+			</xs:choice>
+
+			<xs:choice>
+				<xs:element name="Nacionalidade" type="TNacionalidade" />
+				<xs:element name="Nacionalidade_Indisponivel" type="TVazio" />
+			</xs:choice>
+			<xs:choice>
+				<xs:element name="Naturalidade" type="TNaturalidade" />
+				<xs:element name="Naturalidade_Indisponivel" type="TVazio" />
+			</xs:choice>
+			<xs:element name="CPF" type="TCpf" />
+			<xs:choice>
+				<xs:element name="RG" type="TRg" />
+				<xs:element name="OutroDocumentoIdentificacao" type="TOutroDocumentoIdentificacao" />
+			</xs:choice>
+			<xs:choice>
+				<xs:element name="DataNascimento" type="TData" />
+				<xs:element name="DataNascimento_Indisponivel" type="TVazio" />
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TDadosIesEmissora">
+		<xs:annotation>
+			<xs:documentation>Dados da IES Emissora</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Nome" type="TNomeIES" />
+			<xs:element name="CodigoMEC" type="TCodIESMEC" />
+			<xs:element name="CNPJ" type="TCnpj" />
+			<xs:element name="Endereco" type="TEndereco" />
+			<xs:element name="Credenciamento" type="TAtoRegulatorioComOuSemEMEC" />
+			<xs:element minOccurs="0" name="Recredenciamento" type="TAtoRegulatorioComOuSemEMEC" />
+			<xs:element minOccurs="0" name="RenovacaoDeRecredenciamento"
+				type="TAtoRegulatorioComOuSemEMEC" />
+			<xs:element minOccurs="0" name="Mantenedora">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RazaoSocial" type="TRazaoSocial" />
+						<xs:element name="CNPJ" type="TCnpj" />
+						<xs:element name="Endereco" type="TEndereco" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TDadosIesOriginalCursoPTA">
+		<xs:annotation>
+			<xs:documentation>Em caso da emissão de segunda via de Diploma ocorrer a partir de
+				acervo de outra instituição absorvida pela IES Emissora por meio de Processo de
+				Transferência Assistida, deve-se incluir a informação da IES de origem</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Nome" type="TNomeIES" />
+			<xs:choice>
+				<xs:element name="CodigoMEC" type="TCodIESMEC" />
+				<xs:element name="CodigoMEC_Indisponivel" type="TVazio" />
+			</xs:choice>
+			<xs:element minOccurs="0" name="CNPJ" type="TCnpj" />
+			<xs:element minOccurs="0" name="Endereco" type="TEndereco" />
+			<xs:element name="Descredenciamento" type="TAtoRegulatorio" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TDadosIesRegistradora">
+		<xs:annotation>
+			<xs:documentation>Dados da IES registradora</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Nome" type="TNomeIES" />
+			<xs:element name="CodigoMEC" type="TCodIESMEC" />
+			<xs:element name="CNPJ" type="TCnpj" />
+			<xs:element name="Endereco" type="TEndereco" />
+			<xs:element name="Credenciamento" type="TAtoRegulatorioComOuSemEMEC" />
+			<xs:element minOccurs="0" name="Recredenciamento" type="TAtoRegulatorioComOuSemEMEC" />
+			<xs:element minOccurs="0" name="RenovacaoDeRecredenciamento"
+				type="TAtoRegulatorioComOuSemEMEC" />
+			<xs:element minOccurs="0" name="AtoRegulatorioAutorizacaoRegistro"
+				type="TAtoRegulatorio" />
+
+			<xs:element name="Mantenedora">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="RazaoSocial" type="TRazaoSocial" />
+						<xs:element name="CNPJ" type="TCnpj" />
+						<xs:element name="Endereco" type="TEndereco" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TDadosCurso">
+		<xs:annotation>
+			<xs:documentation>Dados do curso</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="NomeCurso" type="TString" />
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="CodigoCursoEMEC" type="TCodCursoMEC" />
+				</xs:sequence>
+				<xs:sequence>
+					<xs:element name="SemCodigoCursoEMEC" type="TInformacoesTramitacaoEMEC" />
+				</xs:sequence>
+			</xs:choice>
+
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="Habilitacao" type="THabilitacao" />
+			<xs:element name="Modalidade" type="TModalidadeCurso" />
+			<xs:element name="TituloConferido" type="TTituloConferido" />
+			<xs:element name="GrauConferido" type="TGrauConferido" />
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="Enfase" type="TString" />
+			<xs:element name="EnderecoCurso" type="TEndereco" />
+			<xs:element minOccurs="0" name="Polo" type="TPolo" />
+
+			<xs:element name="Autorizacao" type="TAtoRegulatorioComOuSemEMEC" />
+			<xs:element name="Reconhecimento" type="TAtoRegulatorioComOuSemEMEC" />
+			<xs:element minOccurs="0" name="RenovacaoReconhecimento"
+				type="TAtoRegulatorioComOuSemEMEC" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TDadosCursoNSF">
+		<xs:annotation>
+			<xs:documentation>Dados do curso de universidades fora do sistema federal - flexibiliza
+				algumas exigências</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="NomeCurso" type="TString" />
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="CodigoCursoEMEC" type="TCodCursoMEC" />
+				</xs:sequence>
+				<xs:sequence>
+					<xs:element name="SemCodigoCursoEMEC" type="TInformacoesTramitacaoEMEC" />
+				</xs:sequence>
+			</xs:choice>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="Habilitacao" type="THabilitacao" />
+			<xs:element name="Modalidade" type="TModalidadeCursoNSF" />
+			<xs:element name="TituloConferido" type="TTituloConferido" />
+			<xs:element name="GrauConferido" type="TGrauConferido" />
+			<xs:element name="EnderecoCurso" type="TEndereco" />
+			<xs:element minOccurs="0" name="Polo" type="TPolo" />
+
+			<xs:element minOccurs="0" name="Autorizacao" type="TAtoRegulatorioComOuSemEMEC" />
+			<xs:element minOccurs="0" name="Reconhecimento" type="TAtoRegulatorioComOuSemEMEC" />
+			<xs:element minOccurs="0" name="RenovacaoReconhecimento"
+				type="TAtoRegulatorioComOuSemEMEC" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TDadosCursoPorDecisaoJudicial">
+		<xs:annotation>
+			<xs:documentation>Dados do curso para diplomas emitidos por decisão judicial</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="NomeCurso" type="TString" />
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="CodigoCursoEMEC" type="TCodCursoMEC" />
+				</xs:sequence>
+				<xs:sequence>
+					<xs:element name="SemCodigoCursoEMEC" type="TInformacoesTramitacaoEMEC" />
+				</xs:sequence>
+				<xs:sequence>
+					<xs:element name="CodigoCursoEMEC_Indisponivel" type="TVazio" />
+				</xs:sequence>
+			</xs:choice>
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="Habilitacao" type="THabilitacao" />
+			<xs:element name="Modalidade" type="TModalidadeCursoNSF" />
+			<xs:element name="TituloConferido" type="TTituloConferido" />
+			<xs:element name="GrauConferido" type="TGrauConferido" />
+			<xs:choice>
+				<xs:element name="EnderecoCurso" type="TEndereco" />
+				<xs:element name="EnderecoCurso_Indisponivel" type="TVazio" />
+			</xs:choice>
+			<xs:element minOccurs="0" name="Polo" type="TPolo" />
+
+			<xs:element minOccurs="0" name="Autorizacao" type="TAtoRegulatorioComOuSemEMEC" />
+			<xs:element minOccurs="0" name="Reconhecimento" type="TAtoRegulatorioComOuSemEMEC" />
+			<xs:element minOccurs="0" name="RenovacaoReconhecimento"
+				type="TAtoRegulatorioComOuSemEMEC" />
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="TLivroRegistro">
+		<xs:annotation>
+			<xs:documentation>Dados do livro</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="LivroRegistro" type="TCodLivroRegistro" />
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="NumeroRegistro" type="TId" />
+				</xs:sequence>
+				<xs:sequence>
+					<xs:element name="NumeroFolhaDoDiploma" type="TNumFolhaDoDiploma" />
+					<xs:element name="NumeroSequenciaDoDiploma" type="TNumSequenciaDiploma" />
+				</xs:sequence>
+			</xs:choice>
+			<xs:element minOccurs="0" name="ProcessoDoDiploma" type="TCodProcessoDoDiploma" />
+			<xs:element name="DataColacaoGrau" type="TData" />
+			<xs:element name="DataExpedicaoDiploma" type="TData" />
+			<xs:element name="DataRegistroDiploma" type="TData" />
+			<xs:element name="ResponsavelRegistro">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Nome" type="TNome" />
+						<xs:element name="CPF" type="TCpf" />
+						<xs:element minOccurs="0" name="IDouNumeroMatricula" type="TId" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TLivroRegistroNSF">
+		<xs:annotation>
+			<xs:documentation>Dados do livro</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="0" name="LivroRegistro" type="TCodLivroRegistro" />
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="NumeroRegistro" type="TId" />
+				</xs:sequence>
+				<xs:sequence>
+					<xs:element name="NumeroFolhaDoDiploma" type="TNumFolhaDoDiploma" />
+					<xs:element name="NumeroSequenciaDoDiploma" type="TNumSequenciaDiploma" />
+					<xs:element minOccurs="0" name="NumeroRegistro" type="TId" />
+				</xs:sequence>
+			</xs:choice>
+			<xs:element minOccurs="0" name="ProcessoDoDiploma" type="TCodProcessoDoDiploma" />
+			<xs:element name="DataColacaoGrau" type="TData" />
+			<xs:element name="DataExpedicaoDiploma" type="TData" />
+			<xs:element name="DataRegistroDiploma" type="TData" />
+			<xs:element name="ResponsavelRegistro">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Nome" type="TNome" />
+						<xs:element name="CPF" type="TCpf" />
+						<xs:element minOccurs="0" name="IDouNumeroMatricula" type="TId" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TSeguranca">
+		<xs:annotation>
+			<xs:documentation>Dados de seguranca do diploma</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CodigoValidacao" type="TCodigoValidacao" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TAtoRegulatorio">
+		<xs:annotation>
+			<xs:documentation>Ato regulatório</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Tipo" type="TTipoAto" />
+			<xs:element name="Numero" type="TNumeroAto" />
+			<xs:element name="Data" type="TData" />
+			<xs:element minOccurs="0" name="VeiculoPublicacao" type="TString" />
+			<xs:element minOccurs="0" name="DataPublicacao" type="TData" />
+			<xs:element minOccurs="0" name="SecaoPublicacao" type="TSecaoPublicacao" />
+			<xs:element minOccurs="0" name="PaginaPublicacao" type="TPaginaPublicacao" />
+			<xs:element minOccurs="0" name="NumeroDOU" type="TNumeroDOU" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TAtoRegulatorioComOuSemEMEC">
+		<xs:annotation>
+			<xs:documentation>Ato regulatório de reconhecimento</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="InformacoesTramitacaoEMEC" type="TInformacoesTramitacaoEMEC" />
+				<xs:sequence>
+					<xs:element name="Tipo" type="TTipoAtoComAtoProprio" />
+					<xs:element name="Numero" type="TNumeroAto" />
+					<xs:element name="Data" type="TData" />
+					<xs:element minOccurs="0" name="VeiculoPublicacao" type="TString" />
+					<xs:element minOccurs="0" name="DataPublicacao" type="TData" />
+					<xs:element minOccurs="0" name="SecaoPublicacao" type="TSecaoPublicacao" />
+					<xs:element minOccurs="0" name="PaginaPublicacao" type="TPaginaPublicacao" />
+					<xs:element minOccurs="0" name="NumeroDOU" type="TNumeroDOU" />
+				</xs:sequence>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TInformacoesTramitacaoEMEC">
+		<xs:annotation>
+			<xs:documentation>Informações sobre tramitação de processos EMEC</xs:documentation>
+		</xs:annotation>
+
+		<xs:sequence>
+			<xs:element name="NumeroProcesso" type="TNumeroPositivo" />
+			<xs:element name="TipoProcesso" type="TString" />
+			<xs:element name="DataCadastro" type="TData" />
+			<xs:element name="DataProtocolo" type="TData" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="THabilitacao">
+		<xs:annotation>
+			<xs:documentation> Informações sobre Habilitacao </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="NomeHabilitacao" type="TString"></xs:element>
+			<xs:element name="DataHabilitacao" type="TData"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TPolo">
+		<xs:annotation>
+			<xs:documentation>Dados do polo</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Nome" type="TString" />
+			<xs:element name="Endereco" type="TEndereco" />
+
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="CodigoEMEC" type="TCodPoloMEC" />
+				</xs:sequence>
+				<xs:sequence>
+					<xs:element name="SemCodigoEMEC" type="TInformacoesTramitacaoEMEC" />
+				</xs:sequence>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TEndereco">
+		<xs:annotation>
+			<xs:documentation>Tipo Endereço</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Logradouro">
+				<xs:annotation>
+					<xs:documentation>Logradouro</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="TString">
+						<xs:maxLength value="150" />
+						<xs:minLength value="2" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element minOccurs="0" name="Numero">
+				<xs:annotation>
+					<xs:documentation>Número</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="TString">
+						<xs:maxLength value="60" />
+						<xs:minLength value="1" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element minOccurs="0" name="Complemento">
+				<xs:annotation>
+					<xs:documentation>Complemento</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="TString">
+						<xs:maxLength value="60" />
+						<xs:minLength value="1" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Bairro">
+				<xs:annotation>
+					<xs:documentation>Bairro</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="TString">
+						<xs:maxLength value="60" />
+						<xs:minLength value="2" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:group ref="GMunicipio" />
+			<xs:element name="CEP">
+				<xs:annotation>
+					<xs:documentation>CEP</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="preserve" />
+						<xs:pattern value="[0-9]{8}" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TInfoAssinantes">
+		<xs:annotation>
+			<xs:documentation>Informações de cargo dos assinantes</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="unbounded" name="Assinante">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="CPF" type="TCpf" />
+						<xs:choice>
+							<xs:element name="Cargo" type="TCargosAssinantes" />
+							<xs:element name="OutroCargo" type="TString" />
+						</xs:choice>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

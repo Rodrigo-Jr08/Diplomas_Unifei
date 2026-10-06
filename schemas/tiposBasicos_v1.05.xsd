@@ -1,0 +1,906 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://portal.mec.gov.br/diplomadigital/arquivos-em-xsd"
+	targetNamespace="http://portal.mec.gov.br/diplomadigital/arquivos-em-xsd"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<!-- TIPOS PROTOCOLO -->
+	<xs:simpleType name="TAmb">
+		<xs:annotation>
+			<xs:documentation>Tipo Ambiente: Homologação / Produção</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve" />
+			<xs:enumeration value="Produção" />
+			<xs:enumeration value="Homologação" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TVersao">
+		<xs:annotation>
+			<xs:documentation>Tipo Versão</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:enumeration value="1.05"></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!-- TIPOS GERAIS -->
+	<xs:complexType name="TVazio">
+		<xs:annotation>
+			<xs:documentation>Tipo Vazio</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+
+	<xs:simpleType name="TAno">
+		<xs:annotation>
+			<xs:documentation>Tipo ano</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve" />
+			<xs:pattern value="[0-9]{4}" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TAnoMes">
+		<xs:annotation>
+			<xs:documentation>Tipo ano e mes no formato AAAA-MM</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve" />
+			<xs:pattern value="[0-9]{4}-[0-9]{2}" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TString">
+		<xs:annotation>
+			<xs:documentation>Tipo string genérico. Não permite iniciar/terminar com espaços vazios</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve" />
+			<!--
+					// Referencias de regex em XSD:  
+					//    http://www.w3.org/XML/2008/03/xsdl-regex/re.xml
+					//    http://www.w3.org/TR/xsd-unicode-blocknames/ 
+					
+					// [caracteres de pontuação] ou [Caracteres latinos que não são caracteres de controle ou espaços]
+			([\p{P}]|[\p{IsBasicLatin}\p{IsLatin-1Supplement}\p{IsLatinExtended-A}\p{IsLatinExtended-B}-[\p{C}\p{Zs}]])
+					
+					// seguido opcionalmente por
+					(
+						// zero ou mais [caracteres de pontuação] ou [espaços] ou [Caracteres latinos que não são
+			caracteres de controle ou espaços]
+			([\p{P}\p{Zs}]|[\p{IsBasicLatin}\p{IsLatin-1Supplement}\p{IsLatinExtended-A}\p{IsLatinExtended-B}-[\p{C}\p{Zs}]])*
+						// terminando com [caracteres de pontuação] ou [Caracteres latinos que não são caracteres de
+			controle ou espaços]
+			([\p{P}]|[\p{IsBasicLatin}\p{IsLatin-1Supplement}\p{IsLatinExtended-A}\p{IsLatinExtended-B}-[\p{C}\p{Zs}]]))?
+					)?
+			 -->
+			<xs:pattern
+				value="([\p{P}]|[\p{IsBasicLatin}\p{IsLatin-1Supplement}\p{IsLatinExtended-A}\p{IsLatinExtended-B}-[\p{C}\p{Zs}]])(([\p{P}\p{Zs}]|[\p{IsBasicLatin}\p{IsLatin-1Supplement}\p{IsLatinExtended-A}\p{IsLatinExtended-B}-[\p{C}\p{Zs}]])*([\p{P}]|[\p{IsBasicLatin}\p{IsLatin-1Supplement}\p{IsLatinExtended-A}\p{IsLatinExtended-B}-[\p{C}\p{Zs}]]))?" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TTextoAberto">
+		<xs:annotation>
+			<xs:documentation>Texto aberto</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TSimNao">
+		<xs:annotation>
+			<xs:documentation>Tipo boolean indicando sim/não.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:enumeration value="Sim" />
+			<xs:enumeration value="Não" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ThttpURL">
+		<xs:annotation>
+			<xs:documentation>Tipo URL genérico. </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:anyURI">
+			<xs:maxLength value="255" />
+			<xs:pattern value="http://.*" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TNumeroPositivo">
+		<xs:annotation>
+			<xs:documentation>Tipo numérico inteiro positivo genérico</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:unsignedInt">
+			<xs:minInclusive value="0" />
+			<xs:pattern value="[1-9][0-9]*" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TNumeroPositivo2Casas">
+		<xs:annotation>
+			<xs:documentation>Tipo numérico positivo com 2 casas decimais</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0" />
+			<xs:fractionDigits value="2" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TData">
+		<xs:annotation>
+			<xs:documentation>Tipo data AAAA-MM-DD</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:date"></xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="THora">
+		<xs:annotation>
+			<xs:documentation>Tipo hora HH:MM:SS</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve" />
+			<xs:pattern value="(([0-1][0-9])|([2][0-3])):([0-5][0-9]):([0-5][0-9])" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TDataHoraISO8601">
+		<xs:annotation>
+			<xs:documentation>Data e Hora, formato ISO8601 (AAAA-MM-DDThh:mm:ssTZD, onde TZD =
+				+hh:mm ou -hh:mm)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve" />
+			<xs:pattern
+				value="(((20(([02468][048])|([13579][26]))-02-29))|(20[0-9][0-9])-((((0[1-9])|(1[0-2]))-((0[1-9])|(1\d)|(2[0-8])))|((((0[13578])|(1[02]))-31)|(((0[1,3-9])|(1[0-2]))-(29|30)))))T(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d([\-,\+](0[0-9]|10|11):00|([\+](12):00))" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TPdfA">
+		<xs:annotation>
+			<xs:documentation>Documento PDF/A segundo os padrões ISO 19005-1:2005 codificado em
+				Base64</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:base64Binary" />
+	</xs:simpleType>
+
+	<xs:simpleType name="TCodigoValidacao">
+		<xs:annotation>
+			<xs:documentation> Código de seguranca é composto pelo: "e-MEC emissora" + . + "e-MEC
+				registradora" + . + código alfa-numérico gerado pela registradora </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:whiteSpace value="collapse" />
+			<xs:pattern value="\d{1,}\.\d{1,}\.[a-f0-9]{12,}" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TCodigoValidacaoHistorico">
+		<xs:annotation>
+			<xs:documentation> Código de seguranca é composto pelo: "e-MEC emissora" + . + código
+				alfa-numérico gerado pela emissora </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:whiteSpace value="collapse" />
+			<xs:pattern value="\d{1,}\.[a-f0-9]{12,}" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TCodigoCurriculo">
+		<xs:annotation>
+			<xs:documentation> Codigo do curriculo usado internamente pela IES para referenciá-lo. </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:whiteSpace value="preserve" />
+			<xs:minLength value="1" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TCodigoValidacaoCurriculo">
+		<xs:annotation>
+			<xs:documentation> Código de seguranca é composto pelo: "e-MEC IES" + . + código
+				alfa-numérico gerado pela IES </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:whiteSpace value="collapse" />
+			<xs:pattern value="\d{1,}\.[a-f0-9]{12,}" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TCodigoUnidadeCurricular">
+		<xs:annotation>
+			<xs:documentation>Tipo identificador do código da unidade curricular. Deve ser
+				constituido por um código único formado por letras, dígitos, hífen ou ponto.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="collapse" />
+			<xs:pattern value="[\w\d\-\.]{1,}" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TNumeroProcessoJudicial">
+		<xs:annotation>
+			<xs:documentation> Número de processo judicial. Segue o padrão:
+				NNNNNNN-DD.AAAA.J.TR.OOOO Onde: - NNNNNNN: número sequencial do processo por unidade
+				de origem. É reiniciado a cada ano. - DD: dígito verificador. - AAAA: ano do
+				ajuizamento do processo - J: órgão ou segmento do Poder Judiciário - TR: tribunal do
+				respectivo segmento do Poder Judiciário e, na Justiça Militar da União, a
+				Circunscrição Judiciária - OOOO: unidade de origem do processo </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:whiteSpace value="collapse" />
+			<xs:pattern value="\d{7}\-\d{2}\.\d{4}\.\d\.\d{2}\.\d{4}" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="THexadecimal">
+		<xs:annotation>
+			<xs:documentation> Código hexadecimal </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:whiteSpace value="collapse" />
+			<xs:pattern value="[a-f0-9]+" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TUf">
+		<xs:annotation>
+			<xs:documentation>Tipo Sigla da UF</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve" />
+			<xs:enumeration value="AC" />
+			<xs:enumeration value="AL" />
+			<xs:enumeration value="AM" />
+			<xs:enumeration value="AP" />
+			<xs:enumeration value="BA" />
+			<xs:enumeration value="CE" />
+			<xs:enumeration value="DF" />
+			<xs:enumeration value="ES" />
+			<xs:enumeration value="GO" />
+			<xs:enumeration value="MA" />
+			<xs:enumeration value="MG" />
+			<xs:enumeration value="MS" />
+			<xs:enumeration value="MT" />
+			<xs:enumeration value="PA" />
+			<xs:enumeration value="PB" />
+			<xs:enumeration value="PE" />
+			<xs:enumeration value="PI" />
+			<xs:enumeration value="PR" />
+			<xs:enumeration value="RJ" />
+			<xs:enumeration value="RN" />
+			<xs:enumeration value="RO" />
+			<xs:enumeration value="RR" />
+			<xs:enumeration value="RS" />
+			<xs:enumeration value="SC" />
+			<xs:enumeration value="SE" />
+			<xs:enumeration value="SP" />
+			<xs:enumeration value="TO" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TCodUfIBGE">
+		<xs:annotation>
+			<xs:documentation>Tipo Código da UF da tabela do IBGE</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve" />
+			<xs:enumeration value="11" />
+			<xs:enumeration value="12" />
+			<xs:enumeration value="13" />
+			<xs:enumeration value="14" />
+			<xs:enumeration value="15" />
+			<xs:enumeration value="16" />
+			<xs:enumeration value="17" />
+			<xs:enumeration value="21" />
+			<xs:enumeration value="22" />
+			<xs:enumeration value="23" />
+			<xs:enumeration value="24" />
+			<xs:enumeration value="25" />
+			<xs:enumeration value="26" />
+			<xs:enumeration value="27" />
+			<xs:enumeration value="28" />
+			<xs:enumeration value="29" />
+			<xs:enumeration value="31" />
+			<xs:enumeration value="32" />
+			<xs:enumeration value="33" />
+			<xs:enumeration value="35" />
+			<xs:enumeration value="41" />
+			<xs:enumeration value="42" />
+			<xs:enumeration value="43" />
+			<xs:enumeration value="50" />
+			<xs:enumeration value="51" />
+			<xs:enumeration value="52" />
+			<xs:enumeration value="53" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TNomeMun">
+		<xs:annotation>
+			<xs:documentation>Tipo nome de município</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:whiteSpace value="preserve" />
+			<xs:maxLength value="255" />
+			<xs:minLength value="1" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TCodMunIBGE">
+		<xs:annotation>
+			<xs:documentation>Tipo Código do Município da tabela do IBGE</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve" />
+			<xs:pattern value="[0-9]{7}" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:group name="GMunicipio">
+		<xs:annotation>
+			<xs:documentation>Grupo de elementos define um município com nome, código do IBGE e UF.
+				Caso de municipios estrangeiros, é dispensado o do código muninicípio e UF</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:sequence>
+				<xs:element name="CodigoMunicipio" type="TCodMunIBGE" />
+				<xs:element name="NomeMunicipio" type="TNomeMun" />
+				<xs:element name="UF" type="TUf" />
+			</xs:sequence>
+			<xs:sequence>
+				<xs:element name="NomeMunicipioEstrangeiro" type="TNomeMun" />
+			</xs:sequence>
+		</xs:choice>
+	</xs:group>
+
+	<xs:simpleType name="TTitulacao">
+		<xs:annotation>
+			<xs:documentation>Tipo Titulação</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:whiteSpace value="preserve" />
+			<xs:enumeration value="Tecnólogo" />
+			<xs:enumeration value="Graduação" />
+			<xs:enumeration value="Especialização" />
+			<xs:enumeration value="Mestrado" />
+			<xs:enumeration value="Doutorado" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TLattes">
+		<xs:annotation>
+			<xs:documentation>Endereço do currículo lattes</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:whiteSpace value="collapse" />
+			<xs:pattern value="http://lattes\.cnpq\.br/\d+"></xs:pattern>
+			<xs:maxLength value="255" />
+			<xs:minLength value="1" />
+		</xs:restriction>
+	</xs:simpleType>
+
+
+	<!-- TIPOS DADOS PESSOAIS -->
+	<xs:simpleType name="TNome">
+		<xs:annotation>
+			<xs:documentation>Tipo nome de pessoas</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:whiteSpace value="preserve" />
+			<xs:maxLength value="255" />
+			<xs:minLength value="1" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TSexo">
+		<xs:annotation>
+			<xs:documentation>Tipo Sexo</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve" />
+			<xs:enumeration value="F" />
+			<xs:enumeration value="M" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TNacionalidade">
+		<xs:annotation>
+			<xs:documentation>Tipo nacionalidade</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:whiteSpace value="preserve" />
+			<xs:maxLength value="255" />
+			<xs:minLength value="1" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="TNaturalidade">
+		<xs:annotation>
+			<xs:documentation>Tipo naturalidade</xs:documentation>
+		</xs:annotation>
+		<xs:group ref="GMunicipio" />
+	</xs:complexType>
+
+	<xs:simpleType name="TId">
+		<xs:annotation>
+			<xs:documentation>Tipo identificador</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve" />
+			<xs:minLength value="1" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="TFiliacao">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" name="Genitor" type="TPessoa" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TPessoa">
+		<xs:annotation>
+			<xs:documentation>Tipo Pessoa com nome, nome social e sexo</xs:documentation>
+		</xs:annotation>
+		<xs:group ref="GPessoa"></xs:group>
+	</xs:complexType>
+
+	<xs:group name="GPessoa">
+		<xs:annotation>
+			<xs:documentation>Grupo de elementos define uma pessoa com nome, nome social e sexo</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Nome" type="TNome" />
+			<xs:element minOccurs="0" name="NomeSocial" type="TNome" />
+			<xs:element name="Sexo" type="TSexo" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:simpleType name="TCpf">
+		<xs:annotation>
+			<xs:documentation>Tipo CPF</xs:documentation>
+		</xs:annotation>
+
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="collapse" />
+			<xs:maxLength value="11" />
+			<xs:pattern value="[0-9]{11}" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="TRg">
+		<xs:annotation>
+			<xs:documentation>Tipo RG</xs:documentation>
+		</xs:annotation>
+
+		<xs:sequence>
+			<xs:element name="Numero" type="TNumeroRg" />
+			<xs:element minOccurs="0" name="OrgaoExpedidor" type="TString" />
+			<xs:element name="UF" type="TUf" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TOutroDocumentoIdentificacao">
+		<xs:annotation>
+			<xs:documentation>Tipo Outro Documento de Identificação</xs:documentation>
+		</xs:annotation>
+
+		<xs:sequence>
+			<xs:element name="TipoDocumento" type="TString" />
+			<xs:element name="Identificador" type="TString" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="TNumeroRg">
+		<xs:annotation>
+			<xs:documentation>Tipo número do RG</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="collapse" />
+			<xs:maxLength value="15" />
+			<xs:pattern value="[a-zA-Z0-9]{4,15}"></xs:pattern>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!-- TIPOS DADOS PESSOA JURÍDICA-->
+	<xs:simpleType name="TNomeIES">
+		<xs:annotation>
+			<xs:documentation>Tipo nome IES</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:whiteSpace value="preserve" />
+			<xs:maxLength value="255" />
+			<xs:minLength value="1" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TRazaoSocial">
+		<xs:annotation>
+			<xs:documentation>Tipo razão social</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:whiteSpace value="preserve" />
+			<xs:maxLength value="255" />
+			<xs:minLength value="1" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TCnpj">
+		<xs:annotation>
+			<xs:documentation>Tipo Número do CNPJ</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="preserve" />
+			<xs:maxLength value="14" />
+			<xs:pattern value="[0-9]{14}" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TCodIESMEC">
+		<xs:annotation>
+			<xs:documentation>Tipo Código da IES no MEC</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:unsignedInt">
+			<xs:minInclusive value="0" />
+			<xs:pattern value="[0-9]+" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!-- CURSOS -->
+	<xs:simpleType name="TCodPoloMEC">
+		<xs:annotation>
+			<xs:documentation>Tipo Código da IES no MEC</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:unsignedInt">
+			<xs:minInclusive value="0" />
+			<xs:pattern value="[0-9]+" />
+		</xs:restriction>
+	</xs:simpleType>
+
+
+	<xs:simpleType name="TCodCursoMEC">
+		<xs:annotation>
+			<xs:documentation>Tipo Código da IES no MEC</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:unsignedInt">
+			<xs:minInclusive value="0" />
+			<xs:pattern value="[0-9]+" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TModalidadeCurso">
+		<xs:annotation>
+			<xs:documentation>Tipo modalidade de curso</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:enumeration value="Presencial" />
+			<xs:enumeration value="EAD" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TModalidadeCursoNSF">
+		<xs:annotation>
+			<xs:documentation>Tipo modalidade de curso para IES não </xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="TModalidadeCurso">
+			<xs:simpleType>
+				<xs:restriction base="TString">
+					<xs:enumeration value="Semipresencial" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
+
+	<xs:simpleType name="TCargosAssinantes">
+		<xs:annotation>
+			<xs:documentation>Cargos de assinantes do diploma digital</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:enumeration value="Reitor" />
+			<xs:enumeration value="Reitor em Exercício" />
+			<xs:enumeration value="Responsável pelo registro" />
+			<xs:enumeration value="Coordenador de Curso" />
+			<xs:enumeration value="Subcoordenador de Curso" />
+			<xs:enumeration value="Coordenador de Curso em exercício" />
+			<xs:enumeration value="Chefe da área de registro de diplomas" />
+			<xs:enumeration value="Chefe em exercício da área de registro de diplomas" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="TTituloConferido">
+		<xs:choice>
+			<xs:element name="Titulo" type="TTitulo" />
+			<xs:element name="OutroTitulo">
+				<xs:simpleType>
+					<xs:annotation>
+						<xs:documentation>Deve ser usado caso o título conferido não esteja
+							contemplado no elemento Titulo. Se existir em Titulo, NÃO se deve usar
+							este elemento</xs:documentation>
+					</xs:annotation>
+					<xs:restriction base="TString">
+						<xs:whiteSpace value="collapse" />
+						<xs:maxLength value="255" />
+						<xs:minLength value="1" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:simpleType name="TTitulo">
+		<xs:annotation>
+			<xs:documentation>Tipos de títulos conferido pelo curso</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:enumeration value="Licenciado" />
+			<xs:enumeration value="Tecnólogo" />
+			<xs:enumeration value="Bacharel" />
+			<xs:enumeration value="Médico" />
+		</xs:restriction>
+	</xs:simpleType>
+
+
+	<xs:simpleType name="TGrauConferido">
+		<xs:annotation>
+			<xs:documentation>Tipo grau conferido pelo curso</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:enumeration value="Tecnólogo" />
+			<xs:enumeration value="Bacharelado" />
+			<xs:enumeration value="Licenciatura" />
+			<xs:enumeration value="Curso sequencial" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TFormaAcessoCurso">
+		<xs:annotation>
+			<xs:documentation>Tipo forma de acesso ao curso. Será usado as mesmas formas usadas no
+				Censo.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:enumeration value="Vestibular" />
+			<xs:enumeration value="Enem" />
+			<xs:enumeration value="Avaliação Seriada" />
+			<xs:enumeration value="Seleção Simplificada" />
+			<xs:enumeration value="Egresso BI/LI" />
+			<xs:enumeration value="PEC-G" />
+			<xs:enumeration value="Transferência Ex Officio" />
+			<xs:enumeration value="Decisão judicial" />
+			<xs:enumeration value="Seleção para Vagas Remanescentes" />
+			<xs:enumeration value="Seleção para Vagas de Programas Especiais" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!-- LIVRO REGISTRO -->
+	<xs:simpleType name="TCodLivroRegistro">
+		<xs:annotation>
+			<xs:documentation>Tipo código do livro do registro</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TId"></xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TNumFolhaDoDiploma">
+		<xs:annotation>
+			<xs:documentation>Tipo número da folha do diploma no livro</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TId"></xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TNumSequenciaDiploma">
+		<xs:annotation>
+			<xs:documentation>Tipo número sequencial do diploma</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TId"></xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TCodProcessoDoDiploma">
+		<xs:annotation>
+			<xs:documentation>Tipo código do processo do diploma</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TId"></xs:restriction>
+	</xs:simpleType>
+
+	<!-- HISTÓRICO ESCOLAR -->
+	<xs:simpleType name="TEnumCondicaoEnade">
+		<xs:annotation>
+			<xs:documentation>Condição do Estudante durante a prestação do Enade</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:enumeration value="Ingressante" />
+			<xs:enumeration value="Concluinte" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TEnumMotivoNaoHabilitacaoAlunoEnadeHistorico">
+		<xs:annotation>
+			<xs:documentation>Motivos de não habilitação no ENADE de acordo com Portaria Normativa
+				MEC nº 840/2018</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:enumeration
+				value="Estudante não habilitado ao Enade em razão do calendário do ciclo avaliativo" />
+			<xs:enumeration
+				value="Estudante não habilitado ao Enade em razão da natureza do projeto pedagógico do curso" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TNota">
+		<xs:annotation>
+			<xs:documentation>Tipo nota 0 - 10</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TNumeroPositivo2Casas">
+			<xs:minInclusive value="0" />
+			<xs:maxInclusive value="10" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TNotaAteCem">
+		<xs:annotation>
+			<xs:documentation>Tipo nota 0 - 100</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TNumeroPositivo2Casas">
+			<xs:minInclusive value="0" />
+			<xs:maxInclusive value="100" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TConceito">
+		<xs:annotation>
+			<xs:documentation>Tipo Conceito</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:enumeration value="A+" />
+			<xs:enumeration value="A" />
+			<xs:enumeration value="A-" />
+			<xs:enumeration value="B+" />
+			<xs:enumeration value="B" />
+			<xs:enumeration value="B-" />
+			<xs:enumeration value="C+" />
+			<xs:enumeration value="C" />
+			<xs:enumeration value="C-" />
+			<xs:enumeration value="D+" />
+			<xs:enumeration value="D" />
+			<xs:enumeration value="D-" />
+			<xs:enumeration value="E+" />
+			<xs:enumeration value="E" />
+			<xs:enumeration value="E-" />
+			<xs:enumeration value="F+" />
+			<xs:enumeration value="F" />
+			<xs:enumeration value="F-" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TConceitoRM">
+		<xs:annotation>
+			<xs:documentation>Tipo Conceito RM</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:enumeration value="A" />
+			<xs:enumeration value="B" />
+			<xs:enumeration value="C" />
+			<xs:enumeration value="APD" />
+			<xs:enumeration value="APP" />
+			<xs:enumeration value="APR" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="TCargaHoraria">
+		<xs:annotation>
+			<xs:documentation>Tipo carga horária em Hora Aula ou em Hora Relógio</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="HoraAula" type="THoraAula" />
+			<xs:element name="HoraRelogio" type="THoraRelogio" />
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="TCargaHorariaComEtiqueta">
+		<xs:annotation>
+			<xs:documentation>Tipo carga horária em Hora Aula ou em Hora Relógio</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="HoraAula" type="THoraAula" />
+			<xs:element name="HoraRelogio" type="THoraRelogio" />
+		</xs:choice>
+		<xs:attribute name="etiqueta" type="TString" use="optional">
+			<xs:annotation>
+				<xs:documentation> Um código de etiqueta opcional conforme especificado no currículo
+					em infEtiqueta. Isto permite categorizar dentro do currículo em que tivo de
+					atividade a carga horária foi realizada. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:simpleType name="THoraAula">
+		<xs:annotation>
+			<xs:documentation>Define formato para especificação de Hora Aula</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TNumeroPositivo" />
+	</xs:simpleType>
+
+	<xs:simpleType name="THoraRelogio">
+		<xs:annotation>
+			<xs:documentation>Define formato para especificação de Hora Relógio</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TNumeroPositivo2Casas" />
+	</xs:simpleType>
+
+	<xs:complexType name="THoraRelogioComEtiqueta">
+		<xs:simpleContent>
+			<xs:extension base="THoraRelogio">
+				<xs:attribute name="etiqueta" type="TString" use="optional">
+					<xs:annotation>
+						<xs:documentation> Um código de etiqueta opcional conforme especificado no
+							currículo em infEtiqueta. Isto permite categorizar dentro do currículo
+							em que tivo de atividade a carga horária foi realizada. </xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<!-- LEGAIS -->
+	<xs:simpleType name="TTipoAto">
+		<xs:annotation>
+			<xs:documentation>Tipo de ato</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:enumeration value="Parecer" />
+			<xs:enumeration value="Resolução" />
+			<xs:enumeration value="Decreto" />
+			<xs:enumeration value="Portaria" />
+			<xs:enumeration value="Deliberação" />
+			<xs:enumeration value="Despacho" />
+			<xs:enumeration value="Lei Federal" />
+			<xs:enumeration value="Lei Estadual" />
+			<xs:enumeration value="Lei Municipal" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TTipoAtoComAtoProprio">
+		<xs:annotation>
+			<xs:documentation>Tipo de ato</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:enumeration value="Parecer" />
+			<xs:enumeration value="Resolução" />
+			<xs:enumeration value="Decreto" />
+			<xs:enumeration value="Portaria" />
+			<xs:enumeration value="Deliberação" />
+			<xs:enumeration value="Lei Federal" />
+			<xs:enumeration value="Lei Estadual" />
+			<xs:enumeration value="Lei Municipal" />
+			<xs:enumeration value="Ato Próprio" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TNumeroAto">
+		<xs:annotation>
+			<xs:documentation>Tipo número de portaria/lei</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:pattern value="(S/N)|((\d)[-\d\w_/]*)" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TPaginaPublicacao">
+		<xs:annotation>
+			<xs:documentation>Tipo página Publicação</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TNumeroPositivo" />
+	</xs:simpleType>
+
+	<xs:simpleType name="TNumeroDOU">
+		<xs:annotation>
+			<xs:documentation>Tipo número do diário oficial</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TNumeroPositivo" />
+	</xs:simpleType>
+
+	<xs:simpleType name="TSecaoPublicacao">
+		<xs:annotation>
+			<xs:documentation>Tipo seção Publicação</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TNumeroPositivo" />
+	</xs:simpleType>
+
+</xs:schema>

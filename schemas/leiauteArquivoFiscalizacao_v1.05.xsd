@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://portal.mec.gov.br/diplomadigital/arquivos-em-xsd"
+	targetNamespace="http://portal.mec.gov.br/diplomadigital/arquivos-em-xsd"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#"
+		schemaLocation="xmldsig-core-schema_v1.1.xsd" />
+	<xs:include schemaLocation="leiauteDiplomaDigital_v1.05.xsd" />
+	<xs:include schemaLocation="tiposBasicos_v1.05.xsd" />
+
+	<xs:complexType name="TArquivoFiscalizacao">
+		<xs:annotation>
+			<xs:documentation>Lista de Diplomas Emitidos e Registrados em posse da IES para
+				fiscalização pelo MEC</xs:documentation>
+		</xs:annotation>
+
+		<xs:sequence>
+			<xs:choice>
+				<xs:element minOccurs="1" maxOccurs="1" name="infArquivoFiscalizacaoEmissora"
+					type="TInfArquivoFiscalizacaoEmissora" />
+				<xs:element minOccurs="1" maxOccurs="1" name="infArquivoFiscalizacaoRegistradora"
+					type="TInfArquivoFiscalizacaoRegistradora" />
+			</xs:choice>
+			<xs:element ref="ds:Signature" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TInfArquivoFiscalizacaoEmissora">
+		<xs:annotation>
+			<xs:documentation>Tipo que define o conjunto de informações referentes ao Arquivo de
+				Fiscalização da Emissora</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="DataInicioFiscalizacao" type="TData" />
+			<xs:element minOccurs="1" maxOccurs="1" name="IESEmissora" type="TDadosIesEmissora" />
+			<xs:element minOccurs="1" maxOccurs="1" name="DiplomasFiscalizados"
+				type="TDiplomasFiscalizadosEmissora" />
+			<xs:element minOccurs="1" maxOccurs="1" name="DataFimFiscalizacao" type="TData" />
+		</xs:sequence>
+		<xs:attribute name="versao" type="TVersao" use="required">
+			<xs:annotation>
+				<xs:documentation>Versão do leiaute (v1.05)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ambiente" type="TAmb" default="Produção" use="optional">
+			<xs:annotation>
+				<xs:documentation> Especifica o contexto no qual o Arquivo de Fiscalização foi
+					emitido. Apenas Arquivos de Fiscalização emitidos no ambiente "Produção" são
+					legalmente válidos. Caso não seja especificado, o Ambiente é "Produção" e o
+					Arquivo de Fiscalização é legalmente válido. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="TInfArquivoFiscalizacaoRegistradora">
+		<xs:annotation>
+			<xs:documentation>Tipo que define o conjunto de informações referentes a Lista de
+				Diplomas Anulados</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="DataInicioFiscalizacao" type="TData" />
+			<xs:element minOccurs="1" maxOccurs="1" name="IESRegistradora"
+				type="TDadosIesRegistradora" />
+			<xs:element minOccurs="1" maxOccurs="1" name="DiplomasFiscalizados"
+				type="TDiplomasFiscalizadosRegistradora" />
+			<xs:element minOccurs="1" maxOccurs="1" name="DataFimFiscalizacao" type="TData" />
+		</xs:sequence>
+		<xs:attribute name="versao" type="TVersao" use="required">
+			<xs:annotation>
+				<xs:documentation>Versão do leiaute (v1.05)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ambiente" type="TAmb" default="Produção" use="optional">
+			<xs:annotation>
+				<xs:documentation> Especifica o contexto no qual o Arquivo de Fiscalização foi
+					emitido. Apenas Arquivos de Fiscalização emitidos no ambiente "Produção" são
+					legalmente válidos. Caso não seja especificado, o Ambiente é "Produção" e o
+					Arquivo de Fiscalização é legalmente válido. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="TDiplomasFiscalizadosEmissora">
+		<xs:annotation>
+			<xs:documentation>Lista de Diplomas Emitidos</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="unbounded" name="DiplomaFiscalizado"
+				type="TDiplomaFiscalizadoEmissora" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TDiplomaFiscalizadoEmissora">
+		<xs:annotation>
+			<xs:documentation>Informaçãoes sobre um diploma emitido</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="CodigoDiploma" type="TCodigoValidacao" />
+			<xs:element minOccurs="1" maxOccurs="1" name="CPFDetentor" type="TCpf" />
+			<xs:element minOccurs="0" maxOccurs="1" name="CodigoEMECCurso" type="TCodCursoMEC" />
+			<xs:element minOccurs="1" maxOccurs="1" name="DataEmissao" type="TData" />
+			<xs:element minOccurs="1" maxOccurs="1" name="DataRegistro" type="TData" />
+			<xs:element minOccurs="1" maxOccurs="1" name="URLXMLdoDiplomado" type="ThttpURL" />
+			<xs:element minOccurs="1" maxOccurs="1" name="URLRVDD" type="ThttpURL" />
+			<xs:element minOccurs="0" maxOccurs="1" name="URLXMLdeRegistroAcademico" type="ThttpURL" />
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="TDiplomasFiscalizadosRegistradora">
+		<xs:annotation>
+			<xs:documentation>Lista de Diplomas Registrados </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="unbounded" name="DiplomaFiscalizado"
+				type="TDiplomaFiscalizadoRegistradora" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TDiplomaFiscalizadoRegistradora">
+		<xs:annotation>
+			<xs:documentation>Informações sobre um diploma registrado</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="CodigoDiploma" type="TCodigoValidacao" />
+			<xs:element minOccurs="1" maxOccurs="1" name="CPFDetentor" type="TCpf" />
+			<xs:element minOccurs="1" maxOccurs="1" name="CodigoEMECEmissora" type="TCodIESMEC" />
+			<xs:element minOccurs="0" maxOccurs="1" name="CodigoEMECCurso" type="TCodCursoMEC" />
+			<xs:element minOccurs="1" maxOccurs="1" name="DadosRegistro" type="TLivroRegistro" />
+			<xs:element name="IdDocumentacaoAcademica">
+				<xs:simpleType>
+					<xs:restriction base="xs:ID">
+						<xs:pattern value="ReqDip[0-9]{44}" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema> 

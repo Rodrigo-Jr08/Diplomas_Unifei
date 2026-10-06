@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns0:DocumentacaoAcademicaRegistro xmlns:ns0="http://portal.mec.gov.br/diplomadigital/arquivos-em-xsd">
+  <ns0:RegistroReq>aa</ns0:RegistroReq>
+  <ns0:RegistroReqNSF>aaa</ns0:RegistroReqNSF>
+  <ns0:RegistroSegundaViaReq>aa</ns0:RegistroSegundaViaReq>
+  <ns0:RegistroPorDecisaoJudicialReq>aa</ns0:RegistroPorDecisaoJudicialReq>
+  <ns1:Signature xmlns:ns1="http://www.w3.org/2000/09/xmldsig#">aaaaaaaaaaa</ns1:Signature>
+</ns0:DocumentacaoAcademicaRegistro>

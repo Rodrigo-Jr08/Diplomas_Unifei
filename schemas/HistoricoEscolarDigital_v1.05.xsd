@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://portal.mec.gov.br/diplomadigital/arquivos-em-xsd"
+	targetNamespace="http://portal.mec.gov.br/diplomadigital/arquivos-em-xsd"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:include schemaLocation="leiauteHistoricoEscolar_v1.05.xsd" />
+
+	<xs:element name="DocumentoHistoricoEscolarParcial" type="TDocumentoHistoricoEscolarDigital">
+		<xs:annotation>
+			<xs:documentation>Documento Histórico Escolar Digital Parcial</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:element name="DocumentoHistoricoEscolarFinal" type="TDocumentoHistoricoEscolarDigital">
+		<xs:annotation>
+			<xs:documentation>Documento Histórico Escolar Digital Final</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:element name="DocumentoHistoricoEscolarSegundaViaNatoFisico"
+		type="TDocumentoHistoricoEscolarSegundaViaNatoFisico">
+		<xs:annotation>
+			<xs:documentation>Documento de Segunda Via de Histórico Escolar Digital Nato Físico</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+</xs:schema>

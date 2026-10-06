@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://portal.mec.gov.br/diplomadigital/arquivos-em-xsd"
+	targetNamespace="http://portal.mec.gov.br/diplomadigital/arquivos-em-xsd"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#"
+		schemaLocation="xmldsig-core-schema_v1.1.xsd" />
+	<xs:include schemaLocation="leiauteDiplomaDigital_v1.05.xsd" />
+	<xs:include schemaLocation="tiposBasicos_v1.05.xsd" />
+
+	<xs:complexType name="TDocumentoHistoricoEscolarDigital">
+		<xs:annotation>
+			<xs:documentation>Documento de Histórico Escolar Digital</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="infHistoricoEscolar"
+				type="TInfHistoricoEscolar" />
+			<xs:element minOccurs="1" maxOccurs="unbounded" ref="ds:Signature" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TDocumentoHistoricoEscolarSegundaViaNatoFisico">
+		<xs:annotation>
+			<xs:documentation>Documento de Histórico Escolar Digital para segundas vias Nato Físicos</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="infHistoricoEscolar"
+				type="TInfHistoricoEscolarSegundaViaNatoFisico" />
+			<xs:element minOccurs="1" maxOccurs="unbounded" ref="ds:Signature" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TInfHistoricoEscolar">
+		<xs:annotation>
+			<xs:documentation>Tipo que define o conjunto de informações referentes a um Histórico
+				Escolar Digital</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="Aluno" type="TDadosDiplomado" />
+			<xs:choice>
+				<xs:element minOccurs="1" maxOccurs="1" name="DadosCurso" type="TDadosMinimoCurso" />
+				<xs:element minOccurs="1" maxOccurs="1" name="DadosCursoNSF"
+					type="TDadosMinimoCursoNSF" />
+			</xs:choice>
+			<xs:element minOccurs="1" maxOccurs="1" name="IesEmissora" type="TDadosIesEmissora" />
+			<xs:element minOccurs="1" maxOccurs="1" name="HistoricoEscolar" type="THistoricoEscolar" />
+			<xs:element minOccurs="1" maxOccurs="1" name="SegurancaHistorico"
+				type="TSegurancaHistorico" />
+			<xs:element minOccurs="0" maxOccurs="1" name="InformacoesAdicionais" type="TString" />
+		</xs:sequence>
+		<xs:attribute name="versao" type="TVersao" use="required">
+			<xs:annotation>
+				<xs:documentation>Versão do leiaute (v1.05)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ambiente" type="TAmb" default="Produção" use="optional">
+			<xs:annotation>
+				<xs:documentation> Especifica o contexto no qual o Histórico foi emitido. Apenas
+					Históricos emitidos no ambiente "Produção" são legalmente válidos. Caso não seja
+					especificado, o Ambiente é "Produção" e o Histórico é legalmente válido. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="TInfHistoricoEscolarSegundaViaNatoFisico">
+		<xs:annotation>
+			<xs:documentation>Tipo que define o conjunto de informações referentes a um Histórico
+				Escolar Digital para segundas vias Nato Físicos</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="Aluno" type="TDadosDiplomado" />
+			<xs:choice>
+				<xs:element minOccurs="1" maxOccurs="1" name="DadosCurso" type="TDadosMinimoCurso" />
+				<xs:element minOccurs="1" maxOccurs="1" name="DadosCursoNSF"
+					type="TDadosMinimoCursoNSF" />
+			</xs:choice>
+			<xs:element minOccurs="1" maxOccurs="1" name="IesEmissora" type="TDadosIesEmissora" />
+			<xs:element minOccurs="1" maxOccurs="1" name="HistoricoEscolar"
+				type="THistoricoEscolarSegundaVia" />
+			<xs:element minOccurs="1" maxOccurs="1" name="SegurancaHistorico"
+				type="TSegurancaHistorico" />
+			<xs:element minOccurs="0" maxOccurs="1" name="InformacoesAdicionais" type="TString" />
+		</xs:sequence>
+		<xs:attribute name="versao" type="TVersao" use="required">
+			<xs:annotation>
+				<xs:documentation>Versão do leiaute (v1.05)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ambiente" type="TAmb" default="Produção" use="optional">
+			<xs:annotation>
+				<xs:documentation> Especifica o contexto no qual o Histórico foi emitido. Apenas
+					Históricos emitidos no ambiente "Produção" são legalmente válidos. Caso não seja
+					especificado, o Ambiente é "Produção" e o Histórico é legalmente válido. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="TDadosMinimoCurso">
+		<xs:annotation>
+			<xs:documentation>Dados mínimos do curso </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="NomeCurso" type="TString" />
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="CodigoCursoEMEC" type="TCodCursoMEC" />
+				</xs:sequence>
+				<xs:sequence>
+					<xs:element name="SemCodigoCursoEMEC" type="TInformacoesTramitacaoEMEC" />
+				</xs:sequence>
+			</xs:choice>
+
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="Habilitacao" type="THabilitacao" />
+
+			<xs:element name="Autorizacao" type="TAtoRegulatorioComOuSemEMEC" />
+			<xs:element name="Reconhecimento" type="TAtoRegulatorioComOuSemEMEC" />
+			<xs:element minOccurs="0" name="RenovacaoReconhecimento"
+				type="TAtoRegulatorioComOuSemEMEC" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TDadosMinimoCursoNSF">
+		<xs:annotation>
+			<xs:documentation>Dados mínimos do curso para IES emissoras que não fazem parte do
+				sistema federal de regulação</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="NomeCurso" type="TString" />
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="CodigoCursoEMEC" type="TCodCursoMEC" />
+				</xs:sequence>
+				<xs:sequence>
+					<xs:element name="SemCodigoCursoEMEC" type="TInformacoesTramitacaoEMEC" />
+				</xs:sequence>
+			</xs:choice>
+
+			<xs:element minOccurs="0" maxOccurs="unbounded" name="Habilitacao" type="THabilitacao" />
+
+			<xs:element minOccurs="0" name="Autorizacao" type="TAtoRegulatorioComOuSemEMEC" />
+			<xs:element minOccurs="0" name="Reconhecimento" type="TAtoRegulatorioComOuSemEMEC" />
+			<xs:element minOccurs="0" name="RenovacaoReconhecimento"
+				type="TAtoRegulatorioComOuSemEMEC" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="THistoricoEscolar">
+		<xs:annotation>
+			<xs:documentation>Dados do historico</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CodigoCurriculo" type="TCodigoCurriculo" />
+			<xs:element name="ElementosHistorico" type="TElementosHistorico" />
+			<xs:element minOccurs="0" name="NomeParaAreas" type="TString" />
+			<xs:element minOccurs="0" name="Areas" type="TAreasComNome" />
+			<xs:element name="DataEmissaoHistorico" type="TData" />
+			<xs:element name="HoraEmissaoHistorico" type="THora" />
+			<xs:element name="SituacaoAtualDiscente" type="TSituacaoAtualDiscente" />
+			<xs:element name="ENADE" type="TEnade" />
+			<xs:element name="CargaHorariaCursoIntegralizada" type="TCargaHoraria" />
+			<xs:element name="CargaHorariaCurso" type="TCargaHoraria" />
+			<xs:element name="IngressoCurso">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Data" type="TData" />
+						<xs:element name="FormaAcesso" type="TFormaAcessoCurso" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TAreasComNome">
+		<xs:annotation>
+			<xs:documentation>Áreas/ênfases/linhas de formação integralizadas pelo aluno.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element minOccurs="1" maxOccurs="1" name="Area" type="TAreaComNome" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TAreaComNome">
+		<xs:annotation>
+			<xs:documentation>Código e nome da Área/ênfase/linha de formação integralizada pelo
+				aluno.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="Codigo" type="TString" />
+			<xs:element minOccurs="1" maxOccurs="1" name="Nome" type="TString" />
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="TEnade">
+		<xs:annotation>
+			<xs:documentation>Informações sobre a participação no ENADE</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:choice>
+				<xs:element name="Habilitado" type="TInformacoesEnade" />
+				<xs:element name="NaoHabilitado" type="TEnadeNaoHabilitado" />
+				<xs:element name="Irregular" type="TInformacoesEnade" />
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TInformacoesEnade">
+		<xs:annotation>
+			<xs:documentation>Informações sobre condição do estudante e edição do Enade</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Condicao" type="TEnumCondicaoEnade" />
+			<xs:element name="Edicao" type="TAno" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TEnadeNaoHabilitado">
+		<xs:annotation>
+			<xs:documentation>Informações sobre estudantes não habilitados para o ENADE</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="TInformacoesEnade">
+				<xs:sequence>
+					<xs:choice>
+						<xs:element name="Motivo"
+							type="TEnumMotivoNaoHabilitacaoAlunoEnadeHistorico" />
+						<xs:element name="OutroMotivo" type="TString" />
+					</xs:choice>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="THistoricoEscolarSegundaVia">
+		<xs:annotation>
+			<xs:documentation>Dados do historico para segundas vias de históricos nato físicos</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="0" name="CodigoCurriculo" type="TCodigoCurriculo" />
+			<xs:element name="ElementosHistorico" type="TElementosHistoricoSegundaViaNatoFisico" />
+			<xs:element minOccurs="0" name="NomeParaAreas" type="TString" />
+			<xs:element minOccurs="0" name="Areas" type="TAreasComNome" />
+			<xs:element name="DataEmissaoHistorico" type="TData" />
+			<xs:element name="HoraEmissaoHistorico" type="THora" />
+			<xs:element name="SituacaoAtualDiscente" type="TSituacaoAtualDiscente" />
+			<xs:element minOccurs="0" name="ENADE" type="TEnade" />
+			<xs:element name="CargaHorariaCursoIntegralizada" type="TCargaHoraria" />
+			<xs:element name="CargaHorariaCurso" type="TCargaHoraria" />
+			<xs:element minOccurs="0" name="IngressoCurso">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Data" type="TData" />
+						<xs:element minOccurs="1" maxOccurs="unbounded" name="FormaAcesso"
+							type="TFormaAcessoCurso" />
+						<xs:element minOccurs="0" name="AnoMesProcessoSeletivo" type="TAnoMes" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TElementosHistorico">
+		<xs:annotation>
+			<xs:documentation>Entradas do histórico escolar</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="1" maxOccurs="unbounded">
+			<xs:choice>
+				<xs:element name="Disciplina" type="TEntradaHistoricoDisciplina" />
+				<xs:element name="AtividadeComplementar"
+					type="TEntradaHistoricoAtividadeComplementar" />
+				<xs:element name="Estagio" type="TEntradaHistoricoEstagio" />
+				<xs:element name="SituacaoDiscente"
+					type="TEntradaHistoricoSituacaoDiscentePeriodoLetivo" />
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TElementosHistoricoSegundaViaNatoFisico">
+		<xs:annotation>
+			<xs:documentation>Entradas do histórico escolar de segundas vias nato fisicas</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="1" maxOccurs="unbounded">
+			<xs:choice>
+				<xs:element name="Disciplina" type="TEntradaHistoricoDisciplinaSegundaViaNatoFisica" />
+				<xs:element name="AtividadeComplementar"
+					type="TEntradaHistoricoAtividadeComplementarSegundaViaNatoFisica" />
+				<xs:element name="Estagio" type="TEntradaHistoricoEstagioSegundaViaNatoFisica" />
+				<xs:element name="SituacaoDiscente"
+					type="TEntradaHistoricoSituacaoDiscentePeriodoLetivo" />
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TEntradaHistoricoDisciplina">
+		<xs:sequence>
+			<xs:element name="CodigoDisciplina" type="TCodigoUnidadeCurricular" />
+			<xs:element name="NomeDisciplina" type="TString" />
+			<xs:element name="PeriodoLetivo" type="TString" />
+			<xs:element minOccurs="1" maxOccurs="unbounded" name="CargaHoraria"
+				type="TCargaHorariaComEtiqueta" />
+			<xs:choice minOccurs="0">
+				<xs:element name="Nota" type="TNota" />
+				<xs:element name="NotaAteCem" type="TNotaAteCem" />
+				<xs:element name="Conceito" type="TConceito" />
+				<xs:element name="ConceitoRM" type="TConceitoRM" />
+				<xs:element name="ConceitoEspecificoDoCurso" type="TString" />
+			</xs:choice>
+			<xs:choice>
+				<xs:element name="Aprovado" type="TDisciplinaAprovada" />
+				<xs:element name="Pendente" type="TVazio" />
+				<xs:element name="Reprovado" type="TVazio" />
+			</xs:choice>
+			<xs:element name="Docentes" type="TDocentes" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TEntradaHistoricoDisciplinaSegundaViaNatoFisica">
+		<xs:annotation>
+			<xs:documentation>Em segundas vias de históricos nato-físicos é flexibilizada a
+				exigência da especificação do Docente</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="0" name="CodigoDisciplina" type="TCodigoUnidadeCurricular" />
+			<xs:element name="NomeDisciplina" type="TString" />
+			<xs:element name="PeriodoLetivo" type="TString" />
+			<xs:element minOccurs="1" maxOccurs="unbounded" name="CargaHoraria"
+				type="TCargaHorariaComEtiqueta" />
+			<xs:choice minOccurs="0">
+				<xs:element name="Nota" type="TNota" />
+				<xs:element name="NotaAteCem" type="TNotaAteCem" />
+				<xs:element name="Conceito" type="TConceito" />
+				<xs:element name="ConceitoRM" type="TConceitoRM" />
+				<xs:element name="ConceitoEspecificoDoCurso" type="TString" />
+			</xs:choice>
+			<xs:choice>
+				<xs:element name="Aprovado" type="TDisciplinaAprovada" />
+				<xs:element name="Pendente" type="TVazio" />
+				<xs:element name="Reprovado" type="TVazio" />
+			</xs:choice>
+			<xs:element minOccurs="0" name="Docentes" type="TDocentes" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TDisciplinaAprovada">
+		<xs:sequence>
+			<xs:choice minOccurs="0">
+				<xs:element name="FormaIntegralizacao" type="TFormaIntegralizacao" />
+				<xs:element name="OutraFormaIntegralizacao" type="TString" />
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="TFormaIntegralizacao">
+		<xs:annotation>
+			<xs:documentation>Forma de integralização desta entrada no histórico</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="TString">
+			<xs:enumeration value="Cursado" />
+			<xs:enumeration value="Validado" />
+			<xs:enumeration value="Aproveitado" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="TEntradaHistoricoAtividadeComplementar">
+		<xs:sequence>
+			<xs:element name="CodigoAtividadeComplementar" type="TCodigoUnidadeCurricular" />
+			<xs:element name="DataInicio" type="TData" />
+			<xs:element name="DataFim" type="TData" />
+			<xs:element minOccurs="0" name="DataRegistro" type="TData" />
+			<xs:element name="TipoAtividadeComplementar" type="TString" />
+			<xs:element minOccurs="0" name="Descricao" type="TString" />
+
+			<xs:element minOccurs="1" maxOccurs="unbounded" name="CargaHorariaEmHoraRelogio"
+				type="THoraRelogioComEtiqueta" />
+			<xs:element name="DocentesResponsaveisPelaValidacao" type="TDocentes" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TEntradaHistoricoAtividadeComplementarSegundaViaNatoFisica">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="CodigoAtividadeComplementar"
+				type="TCodigoUnidadeCurricular" />
+			<xs:element name="DataInicio" type="TData" />
+			<xs:element name="DataFim" type="TData" />
+			<xs:element minOccurs="0" name="DataRegistro" type="TData" />
+			<xs:element name="TipoAtividadeComplementar" type="TString" />
+			<xs:element minOccurs="0" name="Descricao" type="TString" />
+
+			<xs:element minOccurs="1" maxOccurs="unbounded" name="CargaHorariaEmHoraRelogio"
+				type="THoraRelogioComEtiqueta" />
+			<xs:element name="DocentesResponsaveisPelaValidacao" type="TDocentes" />
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="TEntradaHistoricoSituacaoDiscentePeriodoLetivo">
+		<xs:sequence>
+			<xs:element name="PeriodoLetivo" type="TString" />
+			<xs:group ref="TSituacaoDiscente" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TSituacaoAtualDiscente">
+		<xs:sequence>
+			<xs:element minOccurs="0" maxOccurs="1" name="PeriodoLetivo" type="TString" />
+			<xs:group ref="TSituacaoDiscente" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:group name="TSituacaoDiscente">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="Trancamento" type="TVazio" />
+				<xs:element name="MatriculadoEmDisciplina" type="TVazio" />
+				<xs:element name="Licenca" type="TVazio" />
+				<xs:element name="IntercambioInternacional" type="TSituacaoIntercambio" />
+				<xs:element name="IntercambioNacional" type="TSituacaoIntercambio" />
+				<xs:element name="Desistencia" type="TVazio" />
+				<xs:element name="Abandono" type="TVazio" />
+				<xs:element name="Jubilado" type="TVazio" />
+				<xs:element name="Formado" type="TSituacaoFormado" />
+				<xs:element name="OutraSituacao" type="TString" />
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:complexType name="TSituacaoIntercambio">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="Instituicao" type="TString" />
+			<xs:element minOccurs="0" name="Pais" type="TString" />
+			<xs:element minOccurs="0" name="NomeProgramaIntercambio" type="TString" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TSituacaoFormado">
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="1" name="DataConclusaoCurso" type="TData" />
+			<xs:element minOccurs="1" maxOccurs="1" name="DataColacaoGrau" type="TData" />
+			<xs:element minOccurs="1" maxOccurs="1" name="DataExpedicaoDiploma" type="TData" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TEntradaHistoricoEstagio">
+		<xs:sequence>
+			<xs:element name="CodigoUnidadeCurricular" type="TCodigoUnidadeCurricular" />
+			<xs:element name="DataInicio" type="TData" />
+			<xs:element name="DataFim" type="TData" />
+			<xs:element minOccurs="0" name="Concedente" type="TConcedenteEstagio" />
+			<xs:element minOccurs="0" name="Descricao" type="TString" />
+			<xs:element minOccurs="1" maxOccurs="unbounded" name="CargaHorariaEmHorasRelogio"
+				type="THoraRelogioComEtiqueta" />
+			<xs:element name="DocentesOrientadores" type="TDocentes" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TEntradaHistoricoEstagioSegundaViaNatoFisica">
+		<xs:sequence>
+			<xs:element name="CodigoUnidadeCurricular" type="TCodigoUnidadeCurricular" />
+			<xs:element name="DataInicio" type="TData" />
+			<xs:element name="DataFim" type="TData" />
+			<xs:element minOccurs="0" name="Concedente" type="TConcedenteEstagio" />
+			<xs:element minOccurs="0" name="Descricao" type="TString" />
+			<xs:element minOccurs="1" maxOccurs="unbounded" name="CargaHorariaEmHorasRelogio"
+				type="THoraRelogioComEtiqueta" />
+			<xs:element name="DocentesOrientadores" type="TDocentes" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TDocentes">
+		<xs:annotation>
+			<xs:documentation>Relação de Docentes</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs="1" maxOccurs="unbounded" name="Docente" type="TDocente" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TDocente">
+		<xs:annotation>
+			<xs:documentation>Informações sobre Docente responsável pela Entrada no Histórico</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Nome" type="TNome" />
+			<xs:element name="Titulacao" type="TTitulacao" />
+			<xs:element minOccurs="0" name="Lattes" type="TLattes" />
+			<xs:element minOccurs="0" name="CPF" type="TCpf" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TConcedenteEstagio">
+		<xs:annotation>
+			<xs:documentation>Informações sobre Concedente onde foi realizado estágio</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:sequence>
+				<xs:element name="RazaoSocial" type="TNome" />
+				<xs:element minOccurs="0" name="NomeFantasia" type="TNome" />
+				<xs:element name="CNPJ" type="TCnpj" />
+			</xs:sequence>
+			<xs:sequence>
+				<xs:element name="Nome" type="TNome" />
+				<xs:element name="CPF" type="TCpf" />
+			</xs:sequence>
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="TSegurancaHistorico">
+		<xs:annotation>
+			<xs:documentation>Dados de segurança do histórico</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CodigoValidacao" type="TCodigoValidacaoHistorico" />
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

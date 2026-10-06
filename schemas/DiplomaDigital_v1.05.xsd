@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://portal.mec.gov.br/diplomadigital/arquivos-em-xsd"
+	targetNamespace="http://portal.mec.gov.br/diplomadigital/arquivos-em-xsd"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:include schemaLocation="leiauteDiplomaDigital_v1.05.xsd" />
+
+	<xs:element name="Diploma" type="TDiploma">
+		<xs:annotation>
+			<xs:documentation>Diploma Digital</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+</xs:schema>

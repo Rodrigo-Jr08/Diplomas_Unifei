@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+.env
+*.egg-info/
+dist/
+build/
+artifacts/
+output/
+
+# Nunca versionar certificados/chaves privadas
+*.p12
+*.pfx
+*.key
+*.pem
+*.crt

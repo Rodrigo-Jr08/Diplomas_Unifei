@@ -1,0 +1,4 @@
+lxml>=5,<7
+xsdata>=24,<27
+pytest>=8,<10
+xmlschema>=4,<5
