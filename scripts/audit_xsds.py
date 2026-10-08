@@ -23,7 +23,7 @@ EXPECTED = {
     "xmldsig-core-schema_v1.1.xsd",
 }
 
-
+#Verificação de schemas no projeto antes de execução
 def main() -> int:
     present = {p.name for p in SCHEMAS.glob("*.xsd")}
     missing = sorted(EXPECTED - present)

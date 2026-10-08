@@ -17,6 +17,7 @@ class XmlArtifact:
 
 
 def generate_and_validate(model: object, *, xsd_path: str | Path, output_path: str | Path) -> XmlArtifact:
+    
     xml_bytes = serialize_xsdata(model)
     validate_xsd_text(xml_bytes, xsd_path)
     path = write_xml(xml_bytes, output_path)

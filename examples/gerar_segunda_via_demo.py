@@ -5,43 +5,7 @@ from pathlib import Path
 
 from xsdata.models.datatype import XmlDate
 
-from generated.documentacao_academica_registro_diploma_digital_v1_05 import DocumentacaoAcademicaRegistro
-from generated.leiaute_diploma_digital_v1_05 import (
-    TatoRegulatorioComOuSemEmec,
-    TdadosCurso,
-    TdadosDiploma,
-    TdadosDiplomado,
-    TdadosIesEmissora,
-    Tendereco,
-)
-from generated.leiaute_documentacao_academica_registro_diploma_digital_v1_05 import (
-    TdadosPrivadosDiplomadoSegundaVia,
-    TregistroSegundaViaReq,
-)
-from generated.leiaute_historico_escolar_v1_05 import (
-    TdisciplinaAprovada,
-    TformaIntegralizacao,
-    TelementosHistoricoSegundaViaNatoFisico,
-    TentradaHistoricoDisciplinaSegundaViaNatoFisica,
-    ThistoricoEscolarSegundaVia,
-    TsituacaoAtualDiscente,
-    TsituacaoFormado,
-)
-from generated.tipos_basicos_v1_05 import (
-    Tamb,
-    TgrauConferido,
-    TmodalidadeCurso,
-    Tsexo,
-    Ttitulo,
-    TtituloConferido,
-    Tuf,
-    Tversao,
-    Tfiliacao,
-    Tpessoa,
-    Trg,
-    TcargaHoraria,
-    TcargaHorariaComEtiqueta,
-)
+from generated import *
 
 from diploma_mec.builders.second_via import build_second_via_request
 from diploma_mec.constants import DOCUMENTACAO_REGISTRO_XSD
@@ -97,7 +61,8 @@ def main() -> None:
         elementos_historico=TelementosHistoricoSegundaViaNatoFisico(
             disciplina=[
                 TentradaHistoricoDisciplinaSegundaViaNatoFisica(
-                    codigo_disciplina="COMP101", nome_disciplina="Algoritmos",
+                    codigo_disciplina="COMP101", 
+                    nome_disciplina="Algoritmos",
                     periodo_letivo="2021.1",
                     carga_horaria=[TcargaHorariaComEtiqueta(hora_aula="60")],
                     nota=Decimal("8.50"),
@@ -127,6 +92,7 @@ def main() -> None:
         signature=build_development_signature(ids.request_id),
     )
     out=Path("output/segunda_via_demo.xml")
+    artifact=generate_and_validate(root,xsd_path=DOCUMENTACAO_REGISTRO_XSD,output_path=out)
     artifact=generate_and_validate(root,xsd_path=DOCUMENTACAO_REGISTRO_XSD,output_path=out)
     print(f"XML válido perante o XSD: {artifact.path}")
     print(f"SHA-256: {artifact.sha256}")

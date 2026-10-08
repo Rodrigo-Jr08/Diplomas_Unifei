@@ -6,7 +6,7 @@ from typing import Any
 from .errors import BusinessRuleError
 from .ids import DIPLOMA_ID_RE, REGISTRATION_ID_RE, REQUEST_ID_RE, VALIDATION_CODE_RE, VIRTUAL_ID_RE
 
-
+#Verifica se há exatamente 1 só definido entre as variáveis
 def exactly_one(*values: Any, labels: tuple[str, ...] | None = None) -> int:
     count = sum(v is not None for v in values)
     if count != 1:
@@ -16,7 +16,7 @@ def exactly_one(*values: Any, labels: tuple[str, ...] | None = None) -> int:
         )
     return count
 
-
+#Valida o ID da familia
 def validate_id_family(*, virtual_id: str, diploma_id: str, registration_id: str, request_id: str) -> None:
     checks = {
         "VDip": (virtual_id, VIRTUAL_ID_RE),
@@ -32,15 +32,15 @@ def validate_id_family(*, virtual_id: str, diploma_id: str, registration_id: str
     if len(set(suffixes)) != 1:
         raise BusinessRuleError("VDip, Dip, RDip e ReqDip devem compartilhar o mesmo NONCE.")
 
-
+#Valida o código de validação
 def validate_validation_code(code: str) -> None:
     if not VALIDATION_CODE_RE.fullmatch(code):
         raise BusinessRuleError(
             "Código de validação deve seguir e-MEC emissora.e-MEC registradora.hexadecimal."
         )
 
-
-def validate_https_url(url: str) -> None:
+#Verifica se a url começa com https (validação)
+def validate_https_url(url: str) -> None: 
     if not url.startswith("https://"):
         raise BusinessRuleError("URL pública deve utilizar HTTPS.")
     if len(url) > 255:

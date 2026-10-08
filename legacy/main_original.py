@@ -117,7 +117,7 @@ def gerar_xml_mock():
         # --- C. CONSTRUÇÃO DO HISTÓRICO ESCOLAR ---
         filiacao_mock = Tfiliacao(
             genitor=[
-                Tpessoa(nome="Nayara Pereira Barbosa", sexo="F"),
+                Tpessoa(nome="Nayara Pereira Barbosa", sexo :TSexo="F"),
                 Tpessoa(nome="Rodrigo Lopes de Lara", sexo="M"),
             ]
         )

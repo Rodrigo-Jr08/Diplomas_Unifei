@@ -21,6 +21,7 @@ def _parser() -> etree.XMLParser:
 @lru_cache(maxsize=32)
 def load_schema(xsd_path: str) -> etree.XMLSchema:
     path = Path(xsd_path).resolve()
+
     if not path.exists():
         raise SchemaValidationError(f"XSD não encontrado: {path}")
     try:

@@ -14,12 +14,8 @@ from pathlib import Path
 # Exemplo de importação das classes geradas pelo xsdata.
 # Os nomes refletem os arquivos existentes no projeto.
 from xsdata.models.datatype import XmlDate
-from generated.documentacao_academica_registro_diploma_digital_v1_05 import DocumentacaoAcademicaRegistro
-from generated.leiaute_documentacao_academica_registro_diploma_digital_v1_05 import (
-    TdadosPrivadosDiplomadoSegundaVia,
-    TregistroSegundaViaReq,
-)
-from generated.tipos_basicos_v1_05 import Tversao
+
+from generated import *
 
 from diploma_mec.ids import DiplomaIds
 from diploma_mec.builders.second_via import build_second_via_request

@@ -43,7 +43,7 @@ def normalize_namespaces(xml_bytes: bytes) -> bytes:
     )
 
 
-def serialize_xsdata(model: object) -> bytes:
+def serialize_xsdata(model: object,pretty_print : bool | None = None) -> bytes:
     """Serializa um modelo xsdata sem indentação/whitespace de formatação."""
     try:
         from xsdata.formats.dataclass.serializers import XmlSerializer
@@ -53,7 +53,7 @@ def serialize_xsdata(model: object) -> bytes:
             "xsdata não está instalado. Execute `pip install -e .[dev]`."
         ) from exc
 
-    serializer = XmlSerializer(config=SerializerConfig(pretty_print=False))
+    serializer = XmlSerializer(config=SerializerConfig(pretty_print=pretty_print or False))
     xml = serializer.render(model, ns_map={None: MEC_NAMESPACE})
     return normalize_namespaces(xml.encode("utf-8"))
 
