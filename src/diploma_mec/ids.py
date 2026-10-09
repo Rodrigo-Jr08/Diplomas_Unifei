@@ -13,12 +13,12 @@ VIRTUAL_ID_RE = re.compile(r"^VDip[0-9]{44}$")
 VALIDATION_CODE_RE = re.compile(r"^[0-9]+\.[0-9]+\.[a-f0-9]{12,}$")
 
 
-def generate_nonce() -> str:
+def _generate_nonce() -> str:
     """Gera o NONCE numérico de 44 dígitos exigido pelos identificadores v1.05."""
     return "".join(str(secrets.randbelow(10)) for _ in range(44))
 
 
-def validate_nonce(nonce: str) -> None:
+def _validate_nonce(nonce: str) -> None:
     if not NONCE_RE.fullmatch(nonce):
         raise ValueError("NONCE deve conter exatamente 44 dígitos numéricos.")
 
@@ -40,7 +40,7 @@ class DiplomaIds:
 
     @classmethod
     def from_nonce(cls, nonce: str) -> "DiplomaIds":
-        validate_nonce(nonce)
+        _validate_nonce(nonce)
         return cls(
             nonce=nonce,
             virtual_id=f"VDip{nonce}",
@@ -51,4 +51,4 @@ class DiplomaIds:
 
     @classmethod
     def new(cls) -> "DiplomaIds":
-        return cls.from_nonce(generate_nonce())
+        return cls.from_nonce(_generate_nonce())

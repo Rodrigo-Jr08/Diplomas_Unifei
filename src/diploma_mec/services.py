@@ -15,7 +15,8 @@ class XmlArtifact:
     size: int
     xsd: Path
 
-
+#Gera o xml para qualquer objeto genérico (do tipo object obviamente)
+#Tambem 
 def generate_and_validate(model: object, *, xsd_path: str | Path, output_path: str | Path) -> XmlArtifact:
     
     xml_bytes = serialize_xsdata(model)

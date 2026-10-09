@@ -7,7 +7,7 @@ from xsdata.models.datatype import XmlDate
 
 from generated import *
 
-from diploma_mec.builders.second_via import build_second_via_request
+from diploma_mec.builders import *
 from diploma_mec.constants import DOCUMENTACAO_REGISTRO_XSD
 from diploma_mec.ids import DiplomaIds
 from diploma_mec.services import generate_and_validate
